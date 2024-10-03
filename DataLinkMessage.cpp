@@ -6,7 +6,9 @@
 
 #include "DataLinkMessage.h"
 
-DataLinkMessage::DataLinkMessage(){}
+DataLinkMessage::DataLinkMessage(){
+    
+}
 
 DataLinkMessage::DataLinkMessage(std::string data_link_message){
 
@@ -25,7 +27,7 @@ DataLinkMessage::DataLinkMessage(std::string data_link_message){
 
 
     // Output the string after splitting
-    std::cout << "String after splitting: "<< data_link_message << std::endl;
+    // std::cout << "String after splitting: "<< data_link_message << std::endl;
 
     int i = 0;
     for (const auto& part : tokens) {

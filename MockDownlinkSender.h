@@ -1,6 +1,7 @@
 #include <zmq.hpp>
 #include <string>
 #include <iostream>
+#include "DataLinkMessage.h"
 
 class MockDownlinkSender
 {
@@ -18,6 +19,7 @@ public:
     std::string ip = "";
 
     void send(std::string message);
+    // void send(DataLinkMessage::DataLinkMessage );
     void close();
 
 };

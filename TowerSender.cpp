@@ -4,7 +4,7 @@
 #include <thread>
 
 #include "TowerSender.h"
-
+#include "DataLinkMessage.h"
 
 TowerSender::TowerSender(std::string url,zmq::context_t& context, zmq::socket_type type)
     : socket(context, type)
@@ -42,5 +42,18 @@ void TowerSender::close(){
 int main(){
     zmq::context_t ctx(1);
     TowerSender towerSender{"tcp://*:5556", ctx, zmq::socket_type::push};
-    towerSender.send("Uplink Response");
+
+
+    // DataLinkMessage dataLinkMessage {"UM,6,RESPONSE,WILCO"};
+
+    DataLinkMessage dataLinkMessage {};
+    dataLinkMessage.messageType = "UM";
+    dataLinkMessage.id = 1;
+    dataLinkMessage.message = "STANDBY";
+    dataLinkMessage.min = 12;
+    dataLinkMessage.mrn = 8;
+    dataLinkMessage.responseRequired = true;
+
+
+    towerSender.send(dataLinkMessage.toString());
 }

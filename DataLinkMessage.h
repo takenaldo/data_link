@@ -5,14 +5,14 @@ class DataLinkMessage{
 
 private:
 public:
-    int id;
+    int id; // identification
     
-    int min;
-    int mrn;
+    int min; // message identification
+    int mrn; // reference
     
-    std::string message;
+    std::string message; // actual message
 
-    std::string messageType;
+    std::string messageType; // UM or DM
 
     bool responseRequired;
 
@@ -34,7 +34,7 @@ public:
         * Return a string representation of the message
         */
 
-       std::string msg = messageType +" "+ std::to_string(id) +" "+ message;
+       std::string msg = messageType +","+ std::to_string(id) +","+ message;
 
         return  msg;
     }
