@@ -1,3 +1,6 @@
+#ifndef MOCK_UPLINK_RECEIVER
+#define MOCK_UPLINK_RECEIVER
+
 #include <zmq.hpp>
 #include <string>
 #include <iostream>
@@ -22,3 +25,4 @@ public:
 
 };
 
+#endif

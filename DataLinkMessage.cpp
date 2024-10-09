@@ -72,6 +72,12 @@ DataLinkMessage::DataLinkMessage(
 
 }
 
+std::string DataLinkMessage::toString(){
+    std::string msg = messageType +","+ std::to_string(id) +","+ message;
+    return  msg;
+}
+
+
 
 // int main(){
 //     DataLinkMessage dataLinkMessage {};

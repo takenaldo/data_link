@@ -1,3 +1,6 @@
+#ifndef DATALINK_MESSSAGE_H
+#define DATALINK_MESSSAGE_H
+
 #include <string>
 
 
@@ -16,6 +19,11 @@ public:
 
     bool responseRequired;
 
+    static const int DM_LOGON_REQUEST = 99;
+
+    static const int UM_LOGON_RESPONSE = 1;
+
+
     DataLinkMessage();
     DataLinkMessage(std::string );
 
@@ -29,14 +37,8 @@ public:
     );
 
 
-    std::string toString(){
-        /*
-        * Return a string representation of the message
-        */
-
-       std::string msg = messageType +","+ std::to_string(id) +","+ message;
-
-        return  msg;
-    }
+    std::string toString();
 
 };
+
+#endif

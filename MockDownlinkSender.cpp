@@ -45,19 +45,19 @@ void MockDownlinkSender::close(){
 }
 
 
-int main(){
-    zmq::context_t ctx(1);
-    MockDownlinkSender mockDownLinkSender {"tcp://*:5555", ctx, zmq::socket_type::push};
+// int main(){
+//     zmq::context_t ctx(1);
+//     MockDownlinkSender mockDownLinkSender {"tcp://*:5555", ctx, zmq::socket_type::push};
 
 
-    DataLinkMessage dataLinkMessage {"DM,6,REQUEST,FL350"};
-    // dataLinkMessage.messageType = "DM";
-    // dataLinkMessage.id = 6;
-    // dataLinkMessage.message = "REQUEST FL350";
-    // dataLinkMessage.min = 8;
-    // dataLinkMessage.mrn = 0;
-    // dataLinkMessage.responseRequired = false;
+//     DataLinkMessage dataLinkMessage {"DM,6,REQUEST,FL350"};
+//     // dataLinkMessage.messageType = "DM";
+//     // dataLinkMessage.id = 6;
+//     // dataLinkMessage.message = "REQUEST FL350";
+//     // dataLinkMessage.min = 8;
+//     // dataLinkMessage.mrn = 0;
+//     // dataLinkMessage.responseRequired = false;
 
-    mockDownLinkSender.send(dataLinkMessage.toString());
-    mockDownLinkSender.close();
-}
+//     mockDownLinkSender.send(dataLinkMessage.toString());
+//     mockDownLinkSender.close();
+// }

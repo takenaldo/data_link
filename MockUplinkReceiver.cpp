@@ -21,10 +21,10 @@ void MockUplinkReceiver::close(){
 }
 
 
-int main(){
-    zmq::context_t ctx(1);
-    MockUplinkReceiver receiver{"tcp://localhost:5556", ctx, zmq::socket_type::pull};
-    receiver.recieve();
-}
+// int main(){
+//     zmq::context_t ctx(1);
+//     MockUplinkReceiver receiver{"tcp://localhost:5556", ctx, zmq::socket_type::pull};
+//     receiver.recieve();
+// }
 
 

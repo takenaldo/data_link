@@ -14,7 +14,7 @@ public:
 
     std::string ip="";
 
-    void recieve();
+    std::string recieve();
     void close();
 
 };

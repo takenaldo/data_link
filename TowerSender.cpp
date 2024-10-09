@@ -25,13 +25,11 @@ void TowerSender::print(std::string msg){
 
 void TowerSender::send(std::string message){
     
-    for (int i = 0; i < 10; ++i) {
-        zmq::message_t zmq_message(message.size());
-        memcpy(zmq_message.data(), message.data(), message.size());
-        socket.send(zmq_message, zmq::send_flags::none);
-        std::cerr << "Sent: " << message << std::endl;
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-    }
+    zmq::message_t zmq_message(message.size());
+    memcpy(zmq_message.data(), message.data(), message.size());
+    socket.send(zmq_message, zmq::send_flags::none);
+    std::cerr << "Sent: " << message << std::endl;
+    std::this_thread::sleep_for(std::chrono::seconds(1));
 }
 
 void TowerSender::close(){
@@ -39,21 +37,21 @@ void TowerSender::close(){
 }
 
 
-int main(){
-    zmq::context_t ctx(1);
-    TowerSender towerSender{"tcp://*:5556", ctx, zmq::socket_type::push};
+// int main(){
+//     zmq::context_t ctx(1);
+//     TowerSender towerSender{"tcp://*:5556", ctx, zmq::socket_type::push};
 
 
-    // DataLinkMessage dataLinkMessage {"UM,6,RESPONSE,WILCO"};
+//     // DataLinkMessage dataLinkMessage {"UM,6,RESPONSE,WILCO"};
 
-    DataLinkMessage dataLinkMessage {};
-    dataLinkMessage.messageType = "UM";
-    dataLinkMessage.id = 1;
-    dataLinkMessage.message = "STANDBY";
-    dataLinkMessage.min = 12;
-    dataLinkMessage.mrn = 8;
-    dataLinkMessage.responseRequired = true;
+//     DataLinkMessage dataLinkMessage {};
+//     dataLinkMessage.messageType = "UM";
+//     dataLinkMessage.id = 1;
+//     dataLinkMessage.message = "STANDBY";
+//     dataLinkMessage.min = 12;
+//     dataLinkMessage.mrn = 8;
+//     dataLinkMessage.responseRequired = true;
 
 
-    towerSender.send(dataLinkMessage.toString());
-}
+//     towerSender.send(dataLinkMessage.toString());
+// }
