@@ -2,6 +2,7 @@
 #define LOGIN_REQUEST_H
 #include<string>
 #include "DataLinkMessage.h"
+
 class LogonResponse: public DataLinkMessage
 {
 private:
@@ -12,9 +13,8 @@ public:
     std::string messageType = "UM";
     LogonResponse(
         int id,
-        std::string responsemessage
+        std::string responseMessage
         );
-     virtual std::string toString();
 };
 
 #endif

@@ -29,11 +29,11 @@ void MockDownlinkSender::send(std::string message){
     
     for (int i = 0; i < 10; ++i) {
         // std::string message = "Hello " + std::to_string(i);
-        zmq::message_t zmq_message(message.size());
+        zmq::message_t zmqMessage(message.size());
         
-        memcpy(zmq_message.data(), message.data(), message.size());
+        memcpy(zmqMessage.data(), message.data(), message.size());
 
-        socket.send(zmq_message, zmq::send_flags::none);
+        socket.send(zmqMessage, zmq::send_flags::none);
         
         std::cerr << "Sent: " << message << std::endl;
         std::this_thread::sleep_for(std::chrono::seconds(1));

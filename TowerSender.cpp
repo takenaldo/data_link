@@ -22,12 +22,11 @@ void TowerSender::print(std::string msg){
     std::cout << "in print"<< msg;
 }
 
-
 void TowerSender::send(std::string message){
     
-    zmq::message_t zmq_message(message.size());
-    memcpy(zmq_message.data(), message.data(), message.size());
-    socket.send(zmq_message, zmq::send_flags::none);
+    zmq::message_t zmqMessage(message.size());
+    memcpy(zmqMessage.data(), message.data(), message.size());
+    socket.send(zmqMessage, zmq::send_flags::none);
     std::cerr << "Sent: " << message << std::endl;
     std::this_thread::sleep_for(std::chrono::seconds(1));
 }

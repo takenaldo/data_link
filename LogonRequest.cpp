@@ -9,26 +9,18 @@ LogonRequest::LogonRequest(
     std::string destination
 ){
     
-    this->atsu_icao_code = atsu;
+    this->atsuIcaoCode = atsu;
     this->registeration = reg;
-    this->aircraft_address = address;
+    this->aircraftAddress = address;
     this->departure = departure;
     this->destination = destination;
     this->min = 1;
     this->mrn = 1;
 
-
-    this->message = this->atsu_icao_code + " " +
+    this->message = this->atsuIcaoCode + " " +
                     this->registeration + " " + 
-                    this->aircraft_address + " " + 
+                    this->aircraftAddress + " " + 
                     this->departure + " " + 
                     this->destination + " " + 
                     this->registeration;
-}
-
-
-
-std::string LogonRequest::toString() {
-    std::string msg =  messageType + " , " + std::to_string(id) + " , "+ message;
-    return msg;
 }

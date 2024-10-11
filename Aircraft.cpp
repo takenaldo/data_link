@@ -3,11 +3,11 @@
 #include "LogonRequest.h"
 
 Aircraft::Aircraft(){
-    zmq::context_t sender_ctx;
-    zmq::socket_t sender_socket;
+    zmq::context_t senderCtx;
+    zmq::socket_t senderSocket;
 
-    zmq::context_t receiver_ctx;
-    zmq::socket_t receiver_socket;
+    zmq::context_t receiverCtx;
+    zmq::socket_t receiverSocket;
 }
 
 Aircraft::Aircraft (
@@ -29,15 +29,15 @@ void Aircraft::send(std::string message){
     DataLinkMessage dataLinkMessage {message};
     // TODO: dataLinkMessage valid
 
-    zmq::context_t sender_ctx;
-    zmq::socket_t sender_socket;
-    MockDownlinkSender mockDownLinkSender {senderIp, sender_ctx, zmq::socket_type::push};
+    zmq::context_t senderCtx;
+    zmq::socket_t senderSocket;
+    MockDownlinkSender mockDownLinkSender {senderIp, senderCtx, zmq::socket_type::push};
 
-    zmq::message_t zmq_message(message.size());
+    zmq::message_t zmqMessage(message.size());
     
-    memcpy(zmq_message.data(), message.data(), message.size());
+    memcpy(zmqMessage.data(), message.data(), message.size());
 
-    mockDownLinkSender.socket.send(zmq_message, zmq::send_flags::none);
+    mockDownLinkSender.socket.send(zmqMessage, zmq::send_flags::none);
     
     std::cerr << "Sent: " << message << std::endl;
     std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -52,11 +52,11 @@ void Aircraft::send(DataLinkMessage message){
 void Aircraft::startReceiving(){
 
     try{
-        zmq::context_t receiver_ctx(1);
-        zmq::socket_t receiver_socket;
-        AircraftReceiver receiver{receiverIp, receiver_ctx, zmq::socket_type::pull};
-        std::string received_message = receiver.recieve();
-        std::cout<<"Received Message: "<<received_message<<"\n\n";
+        zmq::context_t receiverCtx(1);
+        zmq::socket_t receiverSocket;
+        AircraftReceiver receiver{receiverIp, receiverCtx, zmq::socket_type::pull};
+        std::string receivedMessage = receiver.recieve();
+        std::cout<<"Received Message: "<<receivedMessage<<"\n\n";
         
     }
      catch (const std::invalid_argument& e) {

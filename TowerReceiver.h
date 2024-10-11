@@ -4,7 +4,6 @@
 
 class TowerReceiver: public zmq::socket_t{
 
-
 private:
     zmq::context_t ctx;
     zmq::socket_t socket;

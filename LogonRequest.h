@@ -9,9 +9,9 @@ private:
 
 public:
 
-    std::string atsu_icao_code;
+    std::string atsuIcaoCode;
     std::string registeration;
-    std::string aircraft_address;
+    std::string aircraftAddress;
     std::string departure;
     std::string destination;
 
@@ -28,7 +28,6 @@ public:
         std::string destination
     );
 
-    virtual std::string toString();
 
 };
 
