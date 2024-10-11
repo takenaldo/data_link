@@ -20,7 +20,7 @@ MockDownlinkSender::MockDownlinkSender(std::string url,zmq::context_t& context, 
 
 MockDownlinkSender::~MockDownlinkSender()
 {
-    std::cout << "In Tower Socket Destructor";
+    std::cout << "In Tower Socket Destructor\n";
 }
 
 

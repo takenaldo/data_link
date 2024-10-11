@@ -15,7 +15,7 @@ TowerSender::TowerSender(std::string url,zmq::context_t& context, zmq::socket_ty
 
 TowerSender::~TowerSender()
 {
-    std::cout << "In Tower Socket Destructor";
+    std::cout << "In Tower Socket Destructor"<<std::endl;
 }
 
 void TowerSender::print(std::string msg){

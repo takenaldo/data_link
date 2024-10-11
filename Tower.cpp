@@ -1,8 +1,9 @@
 #include <thread>
-
+#include <iostream>
 
 #include "Tower.h"
 #include "DataLinkMessage.h"
+#include "LogonResponse.h"
 
 Tower::Tower(){}
 
@@ -17,7 +18,6 @@ void Tower::send(std::string message){
     zmq::message_t zmq_message(message.size());
     memcpy(zmq_message.data(), message.data(), message.size());
     towerSender.socket.send(zmq_message, zmq::send_flags::none);
-    std::cerr << "Sent: " << message << std::endl;
     std::this_thread::sleep_for(std::chrono::seconds(1));
 
 }
@@ -42,6 +42,8 @@ void Tower::start_receiving(){
 
         if (datalinkMessage.id == DataLinkMessage::DM_LOGON_REQUEST){
             std::cout<<"\n\nLOGON REQUEST RECEIVED\n";
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+            // send("connection stablished\n");
         }
 
     }
@@ -58,5 +60,25 @@ int main(){
     std::cout<<"Start Receiving ..."<<std::endl; 
     tower.start_receiving();
 
+    int input = 0;
+    std::cout<<"Choose What To Do:\n";
+    std::cout<<"(1). Accept\n";
+    std::cout<<"(2). Decline\n\n";
+    std::cin>>input;
+    LogonResponse logonResponse = {
+        1, "communication stablished"
+    };
+
+    switch (input)
+    {
+    case 1:
+        std::cout<<"\n\nSending response to aircraft...\n\n";
+
+        tower.send(logonResponse.toString());
+        break;
+    
+    default:
+        break;
+    }
     return 0;
 }

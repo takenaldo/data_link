@@ -8,7 +8,7 @@ LogonRequest::LogonRequest(
     std::string departure,
     std::string destination
 ){
-    id = ident;
+    
     this->atsu_icao_code = atsu;
     this->registeration = reg;
     this->aircraft_address = address;

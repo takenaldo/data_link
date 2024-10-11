@@ -8,13 +8,14 @@
 #include "MockDownlinkSender.h"
 #include "MockUplinkReceiver.h"
 #include "DataLinkMessage.h"
+#include "AircraftReceiver.h"
 
 class Aircraft {
 /*
 */
 private:
     std::string sender_ip = "tcp://*:5555";
-    std::string receiver_ip = "tcp://*:5556";
+    std::string receiver_ip = "tcp://localhost:5556";
 
 public:
     std::string identification;
@@ -35,6 +36,7 @@ public:
 
     void send(std::string);
     void send(DataLinkMessage );
+    void start_receiving();
 
 };
 
