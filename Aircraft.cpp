@@ -1,8 +1,6 @@
 #include <thread>
 #include "Aircraft.h"
-
 #include "LogonRequest.h"
-
 
 Aircraft::Aircraft(){
     zmq::context_t sender_ctx;
@@ -10,33 +8,30 @@ Aircraft::Aircraft(){
 
     zmq::context_t receiver_ctx;
     zmq::socket_t receiver_socket;
-
 }
 
 Aircraft::Aircraft (
-    std::string aircraft_identification,
-    std::string airaft_registration,
-    std::string aircraft_address,
+    std::string aircraftIdentification,
+    std::string airaftRegistration,
+    std::string aircraftAddress,
     std::string departure,
     std::string destination
 ){
-    this->identification = aircraft_identification;
-    this->registeration = airaft_registration;
-    this->aircraft_address = aircraft_address;
+    this->identification = aircraftIdentification;
+    this->registeration = airaftRegistration;
+    this->aircraftAddress = aircraftAddress;
     this->departure = departure;
     this->destination = destination;
 }
-
 
 void Aircraft::send(std::string message){
 
     DataLinkMessage dataLinkMessage {message};
     // TODO: dataLinkMessage valid
 
-
     zmq::context_t sender_ctx;
     zmq::socket_t sender_socket;
-    MockDownlinkSender mockDownLinkSender {sender_ip, sender_ctx, zmq::socket_type::push};
+    MockDownlinkSender mockDownLinkSender {senderIp, sender_ctx, zmq::socket_type::push};
 
     zmq::message_t zmq_message(message.size());
     
@@ -49,24 +44,20 @@ void Aircraft::send(std::string message){
 
 }
 
-
 void Aircraft::send(DataLinkMessage message){
     // if valid
     send(message.toString());
 }
 
-
-void Aircraft::start_receiving(){
-    std::cout<<receiver_ip<<std::endl;
+void Aircraft::startReceiving(){
 
     try{
         zmq::context_t receiver_ctx(1);
         zmq::socket_t receiver_socket;
-        AircraftReceiver receiver{receiver_ip, receiver_ctx, zmq::socket_type::pull};
+        AircraftReceiver receiver{receiverIp, receiver_ctx, zmq::socket_type::pull};
         std::string received_message = receiver.recieve();
         std::cout<<"Received Message: "<<received_message<<"\n\n";
         
-
     }
      catch (const std::invalid_argument& e) {
         std::cout<<e.what();
@@ -78,7 +69,6 @@ int main(){
     Aircraft aircraft{"ET-AUE", "N704YA", "A0B1C2","HAAB", "HASC"};
 
     std::cout<<"Start Sending ..."<<std::endl; 
-
 
     int input  = 0;
 
@@ -99,12 +89,10 @@ int main(){
 
             if (logonRequest.responseRequired)
             {
-                aircraft.start_receiving();
+                aircraft.startReceiving();
             }
             
-            
             break;
-             
         case 2:
             break;
 
