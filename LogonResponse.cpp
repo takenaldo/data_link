@@ -11,7 +11,7 @@ LogonResponse::LogonResponse(std::string resp)
     }
 
 
-// // Convert LogonResponse to a string format
+
 std::string LogonResponse::toString() const {
     
   std::string msg = "Response: " + response;

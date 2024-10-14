@@ -1,6 +1,6 @@
 #include <thread>
 #include "Aircraft.h"
-
+#include "AircraftReceiver.h"
 #include "LogonRequest.h"
 
 
@@ -61,30 +61,34 @@ void Aircraft::send(DataLinkMessage message){
 void Aircraft::start_Receiving() {
     std::cout << "Aircraft is ready to receive Logon Responses..." << std::endl;
 
-    while (true) {
+    // while (true) {
         try {
-            zmq::socket_t receiver_socket;
-            zmq::message_t zmq_message;
-            auto result = receiver_socket.recv(zmq_message, zmq::recv_flags::none);
+         zmq::context_t receiver_ctx(1);
+         zmq::socket_t receiver_socket;    
+         AircraftReceiver receiver{receiver_ip,  receiver_ctx, zmq::socket_type::pull};
+        std::string receivedMessage = receiver.recieve();
+        std::cout<<"Received Message: "<<receivedMessage<<"\n\n";
+        
 
-            if (result) { // Check if message was received successfully
-                std::string receivedMessage(static_cast<char*>(zmq_message.data()), zmq_message.size());
-                std::cout << "Received Message: " << receivedMessage << "\n\n";
-            } else {
-                std::cerr << "Failed to receive message." << std::endl;
-                // Decide whether to continue or break the loop
-                // For now, we'll continue
-            }
+            // zmq::socket_t receiver_socket;
+            // zmq::message_t zmq_message;
+            //  std::string receiver_ip = "tcp://127.0.0.1:5555";
+            // zmq::context_t receiver_ctx{1}; // Initialize with 1 I/O thread
+
+            // AircraftReceiver receiver{receiver_ip,  receiver_ctx, zmq::socket_type::pull };
+            // std::string receivedMessage = receiver.recieve();
+            // std::cout<<"Received Message: "<<receivedMessage<<"\n\n";
+    
         }
         catch (const zmq::error_t& e) {
             std::cerr << "ZeroMQ Error: " << e.what() << std::endl;
-            break; // Exit loop on error
+            // break; // Exit loop on error
         }
-        catch (const std::invalid_argument& e) {
-            std::cerr << "Invalid Argument: " << e.what() << std::endl;
-        }
+        // catch (const std::invalid_argument& e) {
+        //     std::cerr << "Invalid Argument: " << e.what() << std::endl;
+        // }
     }
-}
+
 
 
 
@@ -129,3 +133,4 @@ int main(){
 
     return 0;
 }
+

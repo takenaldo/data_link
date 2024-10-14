@@ -1,6 +1,4 @@
 #include <thread>
-
-
 #include "Tower.h"
 #include "DataLinkMessage.h"
 
