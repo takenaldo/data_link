@@ -22,6 +22,7 @@ public:
     static const int DM_LOGON_REQUEST = 99;
 
     static const int UM_LOGON_RESPONSE = 1;
+    static const int DM_CONNECTION_RESPONSE = 99;  
 
 
     DataLinkMessage();

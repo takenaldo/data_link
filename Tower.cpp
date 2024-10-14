@@ -3,6 +3,7 @@
 #include "DataLinkMessage.h"
 
 #include "LogonResponse.h"
+#include "ConnectionRequest.h"
 
 Tower::Tower(){}
 
@@ -90,6 +91,35 @@ int main(){
 
     std::cout<<"Start Receiving ..."<<std::endl; 
     tower.start_receiving();
+
+    /// connection request 
+     int input  = 0;
+
+    std::cout<<"Connection request :\n";
+    std::cout<<"(1). yes\n";
+    std::cout<<"(2). No\n\n";
+
+    std::cin>>input;
+    ConnectionRequest connectionRequest = {
+        99, "HIAB", "ET-AUE", "A0B1C2", "HAAB", "HASC"
+    };
+
+    switch (input)
+    {
+        case 1:
+            std::cout<<"\n\nSending Connection Request to Aircraft ...\n\n";
+            tower.send(connectionRequest.toString());
+             if (connectionRequest.responseRequired)
+            {
+                tower.start_receiving();
+            }
+            
+            break;
+        
+        case 2:
+            break;
+
+    }
 
     return 0;
 }

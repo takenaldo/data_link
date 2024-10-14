@@ -16,6 +16,11 @@ class Aircraft {
 private:
     std::string sender_ip = "tcp://*:5555";
     std::string receiver_ip = "tcp://localhost:5556";
+    // connector reciver 
+    zmq::context_t sender_ctx;
+    zmq::socket_t sender_socket;
+    zmq::context_t receiver_ctx;
+    zmq::socket_t receiver_socket;
 
 public:
     std::string identification;
@@ -37,6 +42,7 @@ public:
     void send(std::string);
     void send(DataLinkMessage );
     void start_Receiving();
+    void start_Response();
 
     
 };

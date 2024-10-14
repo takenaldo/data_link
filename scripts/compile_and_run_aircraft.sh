@@ -1,4 +1,4 @@
-g++ Aircraft.cpp AircraftReceiver.cpp MockDownlinkSender.cpp MockUplinkReceiver.cpp DataLinkMessage.cpp LogonRequest.cpp -lzmq -o ./build/Aircraft.exe
+g++ Aircraft.cpp AircraftReceiver.cpp MockDownlinkSender.cpp MockUplinkReceiver.cpp DataLinkMessage.cpp LogonRequest.cpp ConnectionRequest.cpp ConnectionResponse.cpp -lzmq -o ./build/Aircraft.exe
 
 echo "=================================="
 echo "'Aircraft.exe' Built Successfully"

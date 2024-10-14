@@ -2,6 +2,7 @@
 #include "Aircraft.h"
 #include "AircraftReceiver.h"
 #include "LogonRequest.h"
+#include "ConnectionResponse.h"
 
 
 Aircraft::Aircraft(){
@@ -89,6 +90,36 @@ void Aircraft::start_Receiving() {
         // }
     }
 
+    //// //  =========================connection Response 
+
+
+    void Aircraft::start_Response(){
+    std::cout<<receiver_ip<<std::endl;
+
+    try{
+        zmq::context_t ctx(1);
+        AircraftReceiver receiver{receiver_ip, ctx, zmq::socket_type::pull};
+        std::string received_message = receiver.recieve();
+        std::cout<<"Connected ======== "<<received_message<<"\n\n\n";
+
+        DataLinkMessage datalinkMessage{received_message};
+         std::cout << "Received Message ID: " << datalinkMessage.id << std::endl;
+        std::cout << "Expected DM_CONNECTION_RESPONSE ID: " << DataLinkMessage::DM_CONNECTION_RESPONSE << std::endl;
+
+        if (datalinkMessage.id == DataLinkMessage::DM_CONNECTION_RESPONSE){
+            std::cout << "\n\nCONNECTION REQUEST RECEIVED\n";
+            // ... rest of the code ...
+        } else {
+            std::cout << "Received message ID does not match DM_CONNECTION_RESPONSE.\n";
+        }
+
+    }
+       
+     catch (const std::invalid_argument& e) {
+        std::cout<<e.what();
+     }
+}
+
 
 
 
@@ -120,6 +151,8 @@ int main(){
              if (logonRequest.responseRequired)
             {
                 aircraft.start_Receiving();
+                
+               // aircraft.start_Response();
             }
             
             break;
@@ -129,7 +162,7 @@ int main(){
 
     }
 
-
+     aircraft.start_Response();
 
     return 0;
 }
