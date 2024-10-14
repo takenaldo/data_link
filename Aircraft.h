@@ -1,5 +1,5 @@
 #ifndef AIRCRAFT_H
-#define AIRCARFT_H
+#define AIRCRAFT_H
 
 #include <iostream>
 #include <string>
@@ -18,7 +18,7 @@ private:
 
 public:
     std::string identification;
-    std::string registeration;
+    std::string registeration; //// i edited the name
     std::string aircraft_address;
     std::string departure;
     std::string destination;
@@ -35,7 +35,9 @@ public:
 
     void send(std::string);
     void send(DataLinkMessage );
+    void start_Receiving();
 
+    
 };
 
 
