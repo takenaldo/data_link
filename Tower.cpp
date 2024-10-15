@@ -66,20 +66,39 @@ int main(){
         100, "connection request"
     };
 
-   switch (input) {
+   switch (input)
+{
     case 1:
+    {
         std::cout << "\n\nSending response to aircraft...\n\n";
-
         tower.send(logonResponse.toString());
-        std::cout << "Requesting a connection..." << std::endl;
 
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        tower.send(connectionRequest.toString());
-        tower.startReceiving();
+        int input1 = 0;
+        std::cout << "Request a connection:\n";
+        std::cout << "(1). yes\n";
+        std::cout << "(2). no\n\n";
+        std::cin >> input1;
+
+        switch (input1)
+        {
+            case 1:
+                std::cout << "Requesting a connection..." << std::endl;
+                std::this_thread::sleep_for(std::chrono::seconds(1));
+                tower.send(connectionRequest.toString());
+                tower.startReceiving();
+                break;
+
+            default:
+                std::cout << "No connection requested." << std::endl;
+                break;
+        }
         break;
+    }
     default:
+        std::cout << "Invalid input." << std::endl;
         break;
 }
+
 return 0;
 
 }

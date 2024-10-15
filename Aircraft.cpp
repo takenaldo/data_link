@@ -92,21 +92,30 @@ int main(){
                 std::cout<<"you want to create a connection ?\n";
                 std::cout<<"1. create conection \n";
                 std::cout<<"2. decline \n";
-                int input;
-                std::cin>>input;
-                ConnectionResponse conResponse ={
-                    2, "connection created"
-                };
-                switch (input)
+                int input1;
+                std::cin>>input1;
+               
+                switch (input1)
                 {
-                case 1:
-                std::cout<<"\n\ncreating connection...\n\n";
-                    aircraft.send(conResponse.toString());
-                    break;
-                
-                default:
-                    break;
+                    case 1:
+                    {
+                        std::cout << "\n\nCreating connection...\n\n";
+                        ConnectionResponse conResponse = {2, "connection created"};
+                        aircraft.send(conResponse.toString());
+                        break;
+                    }
+                    case 2:
+                    {
+                        std::cout << "\n\nRejecting connection...\n\n";
+                        ConnectionResponse conResponse = {2, "connection rejected"};
+                        aircraft.send(conResponse.toString());
+                        break;
+                    }
+                    default:
+                        std::cout << "Invalid input.\n";
+                        break;
                 }
+
             }
             
             break;
