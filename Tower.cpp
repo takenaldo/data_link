@@ -92,7 +92,7 @@ int main(){
     std::cout<<"Start Receiving ..."<<std::endl; 
     tower.start_receiving();
 
-    /// connection request 
+    /// ...............connection request 
      int input  = 0;
 
     std::cout<<"Connection request :\n";
@@ -111,7 +111,7 @@ int main(){
             tower.send(connectionRequest.toString());
              if (connectionRequest.responseRequired)
             {
-                tower.start_receiving();
+                std::cout<<"Connected successfuly ";
             }
             
             break;

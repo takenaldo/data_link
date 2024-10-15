@@ -15,7 +15,7 @@ TowerSender::TowerSender(std::string url,zmq::context_t& context, zmq::socket_ty
 
 TowerSender::~TowerSender()
 {
-    std::cout << "In Tower Socket Destructor";
+        std::cout << "****"; // It was linke this  std::cout << "In Tower Socket Destructor"; i edit it becuse i get distracted in mt tower.cpp out put at coonectionrequest 
 }
 
 void TowerSender::print(std::string msg){

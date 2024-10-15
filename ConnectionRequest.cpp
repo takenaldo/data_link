@@ -1,5 +1,5 @@
 #include "ConnectionRequest.h"
-
+// new class with object 
 ConnectionRequest::ConnectionRequest(
     int ident,
     std::string atsu,
