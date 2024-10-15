@@ -1,7 +1,7 @@
-#include "LogonResponse.h"
+#include "ConnectionResponse.h"
 #include <string>
 
-LogonResponse::LogonResponse(
+ConnectionResponse::ConnectionResponse(
     int ident,
     std::string responseMessage
     ){
@@ -11,3 +11,6 @@ LogonResponse::LogonResponse(
     this ->message = this->response;
     
     }
+ ConnectionResponse::~ConnectionResponse(){
+    
+ }

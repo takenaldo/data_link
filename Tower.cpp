@@ -3,6 +3,7 @@
 #include "Tower.h"
 #include "DataLinkMessage.h"
 #include "LogonResponse.h"
+#include "ConnectionRequest.h"
 
 Tower::Tower(){}
 
@@ -59,18 +60,26 @@ int main(){
     std::cout<<"(2). Decline\n\n";
     std::cin>>input;
     LogonResponse logonResponse = {
-        1, "communication stablished"
+        1, "logon request accepted",
+    };
+    ConnectionRequest connectionRequest ={
+        100, "connection request"
     };
 
-    switch (input)
-    {
+   switch (input) {
     case 1:
-        std::cout<<"\n\nSending response to aircraft...\n\n";
+        std::cout << "\n\nSending response to aircraft...\n\n";
 
         tower.send(logonResponse.toString());
+        std::cout << "Requesting a connection..." << std::endl;
+
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        tower.send(connectionRequest.toString());
+        tower.startReceiving();
         break;
     default:
         break;
-    }
-    return 0;
+}
+return 0;
+
 }

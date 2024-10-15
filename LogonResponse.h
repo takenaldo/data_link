@@ -15,6 +15,7 @@ public:
         int id,
         std::string responseMessage
         );
+
 };
 
 #endif

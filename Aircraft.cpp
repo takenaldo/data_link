@@ -1,7 +1,7 @@
 #include <thread>
 #include "Aircraft.h"
 #include "LogonRequest.h"
-
+#include "ConnectionResponse.h"
 Aircraft::Aircraft(){
     zmq::context_t senderCtx;
     zmq::socket_t senderSocket;
@@ -57,7 +57,6 @@ void Aircraft::startReceiving(){
         AircraftReceiver receiver{receiverIp, receiverCtx, zmq::socket_type::pull};
         std::string receivedMessage = receiver.recieve();
         std::cout<<"Received Message: "<<receivedMessage<<"\n\n";
-        
     }
      catch (const std::invalid_argument& e) {
         std::cout<<e.what();
@@ -80,7 +79,6 @@ int main(){
     LogonRequest logonRequest = {
         99, "HIAB", "ET-AUE", "A0B1C2", "HAAB", "HASC"
     };
-
     switch (input)
     {
         case 1:
@@ -90,6 +88,25 @@ int main(){
             if (logonRequest.responseRequired)
             {
                 aircraft.startReceiving();
+                aircraft.startReceiving();
+                std::cout<<"you want to create a connection ?\n";
+                std::cout<<"1. create conection \n";
+                std::cout<<"2. decline \n";
+                int input;
+                std::cin>>input;
+                ConnectionResponse conResponse ={
+                    2, "connection created"
+                };
+                switch (input)
+                {
+                case 1:
+                std::cout<<"\n\ncreating connection...\n\n";
+                    aircraft.send(conResponse.toString());
+                    break;
+                
+                default:
+                    break;
+                }
             }
             
             break;
@@ -97,8 +114,5 @@ int main(){
             break;
 
     }
-
-
-
     return 0;
 }

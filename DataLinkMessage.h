@@ -21,7 +21,9 @@ public:
 
     static const int UmlogonResponse = 1;
 
+    static const int UmConnectionrequest =100;
 
+    static const int DmConnectionResponse = 2;
     DataLinkMessage();
     DataLinkMessage(std::string );
 
