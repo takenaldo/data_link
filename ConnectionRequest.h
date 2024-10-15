@@ -3,33 +3,15 @@
 
 #include "DataLinkMessage.h"
 
-class ConnectionRequest: public DataLinkMessage{
-
-private:
-
+class ConnectionRequest : public DataLinkMessage {
 public:
-  /// we need the DLC adress and Facility designstion 
-    std::string atsu_icao_code;
-    std::string registeration;
-    std::string aircraft_address;
-    std::string departure;
-    std::string destination;
+    std::string mesg;          
+    std::string messageType = "UM";  
+    bool responseRequired = true;    
 
-    std::string messageType = "UM";
-
-    bool responseRequired = true;
-
-    ConnectionRequest(
-        int id,
-        std::string atsu,
-        std::string reg,
-        std::string address,
-        std::string departure,
-        std::string destination
-    );
+    ConnectionRequest(int id, const std::string& mesg);
 
     virtual std::string toString();
-
 };
 
 #endif

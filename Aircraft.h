@@ -41,8 +41,8 @@ public:
 
     void send(std::string);
     void send(DataLinkMessage );
-    void start_Receiving();
-    void start_Response();
+    void startReceiving();
+    void startResponse();
 
     
 };

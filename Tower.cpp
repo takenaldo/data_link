@@ -30,7 +30,7 @@ void Tower::send(DataLinkMessage message){
 }
 
 
-void Tower::start_receiving(){
+void Tower::startReceiving(){
     std::cout<<receiver_ip<<std::endl;
 
     try{
@@ -90,7 +90,7 @@ int main(){
     Tower tower{};
 
     std::cout<<"Start Receiving ..."<<std::endl; 
-    tower.start_receiving();
+    tower.startReceiving();
 
     /// ...............connection request 
      int input  = 0;
@@ -101,22 +101,28 @@ int main(){
 
     std::cin>>input;
     ConnectionRequest connectionRequest = {
-        99, "HIAB", "ET-AUE", "A0B1C2", "HAAB", "HASC"
+        99, "HIAB"
     };
 
     switch (input)
     {
         case 1:
+           
             std::cout<<"\n\nSending Connection Request to Aircraft ...\n\n";
+           connectionRequest.message = "ACCEPTED\n";
             tower.send(connectionRequest.toString());
              if (connectionRequest.responseRequired)
             {
-                std::cout<<"Connected successfuly ";
+                std::cout<<"Connected successfuly\n ";
             }
             
             break;
         
         case 2:
+              connectionRequest.message = "REJECTED";
+            tower.send(connectionRequest.toString());
+
+            std::cout << "Connection rejected.\n" << std::endl;
             break;
 
     }

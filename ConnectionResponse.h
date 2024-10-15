@@ -7,7 +7,7 @@
 
 class ConnectionResponse {
 public:
-    // Mandatory attribute
+    
     std::string response;
     std::string msg;
     

@@ -23,7 +23,7 @@ public:
     void send(std::string);
     void send(DataLinkMessage );
 
-    void start_receiving();
+    void startReceiving();
 
 };
 

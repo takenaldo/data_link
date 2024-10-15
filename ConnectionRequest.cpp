@@ -1,34 +1,12 @@
 #include "ConnectionRequest.h"
-// new class with object 
-ConnectionRequest::ConnectionRequest(
-    int ident,
-    std::string atsu,
-    std::string reg,
-    std::string address,
-    std::string departure,
-    std::string destination
-){
+
+ConnectionRequest::ConnectionRequest(int ident, const std::string& mesg) {
     id = ident;
-    this->atsu_icao_code = atsu;
-    this->registeration = reg;
-    this->aircraft_address = address;
-    this->departure = departure;
-    this->destination = destination;
-    this->min = 1;
-    this->mrn = 1;
-
-
-    this->message = this->atsu_icao_code + " " +
-                    this->registeration + " " + 
-                    this->aircraft_address + " " + 
-                    this->departure + " " + 
-                    this->destination + " " + 
-                    this->registeration;
+    this->mesg = mesg;  
+    this->message = this->mesg;
 }
 
 
-
 std::string ConnectionRequest::toString() {
-    std::string msg =  messageType + " , " + std::to_string(id) + " , "+ message;
-    return msg;
+    return messageType + " , " + std::to_string(id) + " , " + message;
 }

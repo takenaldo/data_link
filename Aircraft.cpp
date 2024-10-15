@@ -59,8 +59,8 @@ void Aircraft::send(DataLinkMessage message){
 
 
 // Start Receiving Messages
-void Aircraft::start_Receiving() {
-    std::cout << "Aircraft is ready to receive Logon Responses..." << std::endl;
+void Aircraft::startReceiving() {
+    std::cout << "Aircraft is ready to receive Logon Responses...\n" << std::endl;
 
     // while (true) {
         try {
@@ -93,7 +93,7 @@ void Aircraft::start_Receiving() {
     //// //  =========================connection Response 
 
 
-    void Aircraft::start_Response(){
+    void Aircraft::startResponse(){
     std::cout<<receiver_ip<<std::endl;
 
     try{
@@ -108,7 +108,21 @@ void Aircraft::start_Receiving() {
 
         if (datalinkMessage.id == DataLinkMessage::DM_CONNECTION_RESPONSE){
             std::cout << "\n\nCONNECTION REQUEST RECEIVED\n";
-            // ... rest of the code ...
+             std::cout << "Connection Status : " << datalinkMessage.message << std::endl;
+
+                if (datalinkMessage.message == "ACCEPTED") {
+                    std::cout << "Connection has been accepted." << std::endl;
+                    
+                }
+                else if (datalinkMessage.message == "REJECTED") {
+                    std::cout << "Connection has been rejected." << std::endl;
+                 
+                }
+                else {
+                    std::cout << "Unknown connection status received." << std::endl;
+                }
+
+
         } else {
             std::cout << "Received message ID does not match DM_CONNECTION_RESPONSE.\n";
         }
@@ -150,7 +164,7 @@ int main(){
             aircraft.send(logonRequest.toString());
              if (logonRequest.responseRequired)
             {
-                aircraft.start_Receiving();
+                aircraft.startReceiving();
                 
                // aircraft.start_Response();
             }
@@ -162,7 +176,7 @@ int main(){
 
     }
 
-     aircraft.start_Response();
+     aircraft.startResponse();
 
     return 0;
 }
