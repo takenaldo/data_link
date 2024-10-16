@@ -7,8 +7,6 @@ class TowerSender
 
 private:
 
-
-
 public:
     zmq::context_t ctx;
     zmq::socket_t socket;

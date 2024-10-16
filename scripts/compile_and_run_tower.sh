@@ -1,4 +1,4 @@
-g++ Tower.cpp TowerSender.cpp TowerReceiver.cpp  DataLinkMessage.cpp -lzmq -o ./build/Tower.exe
+g++ Tower.cpp TowerSender.cpp TowerReceiver.cpp  ConnectionRequest.cpp LogonResponse.cpp DataLinkMessage.cpp -lzmq -o ./build/Tower.exe
 echo "=================================="
 echo "'Tower.exe' Built Successfully"
 echo "=================================="

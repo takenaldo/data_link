@@ -8,9 +8,9 @@ TowerReceiver::TowerReceiver(std::string url, zmq::context_t& context, zmq::sock
 }
 
 std::string TowerReceiver::recieve(){
-    zmq::message_t zmq_message;
-    std::optional<long unsigned int> s = socket.recv(zmq_message, zmq::recv_flags::none);
-    std::string message(static_cast<char*>(zmq_message.data()), zmq_message.size());
+    zmq::message_t zmqMessage;
+    std::optional<long unsigned int> s = socket.recv(zmqMessage, zmq::recv_flags::none);
+    std::string message(static_cast<char*>(zmqMessage.data()), zmqMessage.size());
 
     std::cout << "Received: " << message << std::endl;
 
