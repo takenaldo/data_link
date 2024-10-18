@@ -1,21 +1,24 @@
-#ifndef LOGIN_REQUEST_H
-#define LOGIN_REQUEST_H
-#include<string>
+// LogonResponse.h
+#ifndef LOGONRESPONSE_H
+#define LOGONRESPONSE_H
+
 #include "DataLinkMessage.h"
+#include <string>
 
-class LogonResponse: public DataLinkMessage
-{
-private:
-   
+class LogonResponse {
 public:
-    
+    // Mandatory attribute
     std::string response;
-    std::string messageType = "UM";
-    LogonResponse(
-        int id,
-        std::string responseMessage
-        );
+    std::string msg;
+    
+    LogonResponse(std::string resp);
 
+    // Parameterized Constructor with optional attributes
+    
+    std::string toString() const;   
+    
+
+   
 };
 
-#endif
+#endif // LOGONRESPONSE_H

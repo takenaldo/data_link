@@ -10,10 +10,11 @@
 #include "DataLinkMessage.h"
 
 class Tower {
-
+/*
+*/
 private:
-    std::string senderIp = "tcp://*:5556";
-    std::string receiverIp = "tcp://localhost:5555";
+    std::string sender_ip = "tcp://*:5556";
+    std::string receiver_ip = "tcp://localhost:5555";
 
 public:
 

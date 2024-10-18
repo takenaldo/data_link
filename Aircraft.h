@@ -1,5 +1,5 @@
 #ifndef AIRCRAFT_H
-#define AIRCARFT_H
+#define AIRCRAFT_H
 
 #include <iostream>
 #include <string>
@@ -14,13 +14,18 @@ class Aircraft {
 /*
 */
 private:
-    std::string senderIp = "tcp://*:5555";
-    std::string receiverIp = "tcp://localhost:5556";
+    std::string sender_ip = "tcp://*:5555";
+    std::string receiver_ip = "tcp://localhost:5556";
+    // connector reciver 
+    zmq::context_t sender_ctx;
+    zmq::socket_t sender_socket;
+    zmq::context_t receiver_ctx;
+    zmq::socket_t receiver_socket;
 
 public:
     std::string identification;
-    std::string registeration;
-    std::string aircraftAddress;
+    std::string registeration; //// i edited the name
+    std::string aircraft_address;
     std::string departure;
     std::string destination;
 
@@ -33,11 +38,15 @@ public:
         std::string destination
     );
 
+
     void send(std::string);
     void send(DataLinkMessage );
     void startReceiving();
+    void startResponse();
 
+    
 };
 
 
 #endif
+

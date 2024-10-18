@@ -2,16 +2,18 @@
 #include <string>
 #include <sstream>
 #include <vector>
+
+
 #include "DataLinkMessage.h"
 
 DataLinkMessage::DataLinkMessage(){
     
 }
 
-DataLinkMessage::DataLinkMessage(std::string dataLinkMessage){
+DataLinkMessage::DataLinkMessage(std::string data_link_message){
 
     // Create a stringstream object with the input string
-    std::stringstream ss(dataLinkMessage);
+    std::stringstream ss(data_link_message);
 
     // Tokenize the input string by comma delimiter
     std::string token;
@@ -25,7 +27,7 @@ DataLinkMessage::DataLinkMessage(std::string dataLinkMessage){
 
 
     // Output the string after splitting
-    // std::cout << "String after splitting: "<< dataLinkMessage << std::endl;
+    // std::cout << "String after splitting: "<< data_link_message << std::endl;
 
     int i = 0;
     for (const auto& part : tokens) {
@@ -77,18 +79,3 @@ std::string DataLinkMessage::toString(){
 
 
 
-// int main(){
-//     DataLinkMessage dataLinkMessage {};
-//     dataLinkMessage.messageType = "DM";
-//     dataLinkMessage.id = 6;
-//     dataLinkMessage.message = "REQUEST FL350";
-//     dataLinkMessage.min = 8;
-//     dataLinkMessage.mrn = 0;
-//     dataLinkMessage.responseRequired = false;
-
-//     std::cout<<"Data Link message: "<<dataLinkMessage.toString()<<std::endl;
-
-
-
-//     return 0;
-// }
