@@ -1,6 +1,8 @@
 #ifndef DATALINK_MESSSAGE_H
 #define DATALINK_MESSSAGE_H
+
 #include <string>
+
 
 class DataLinkMessage{
 
@@ -17,13 +19,12 @@ public:
 
     bool responseRequired;
 
-    static const int DmLogonRequest = 99;
+    static const int DM_LOGON_REQUEST = 99;
 
-    static const int UmlogonResponse = 1;
+    static const int UM_LOGON_RESPONSE = 1;
+    static const int DM_CONNECTION_RESPONSE = 99;  ///
 
-    static const int UmConnectionrequest =100;
 
-    static const int DmConnectionResponse = 2;
     DataLinkMessage();
     DataLinkMessage(std::string );
 
@@ -35,6 +36,7 @@ public:
         std::string message,
         bool responseRequired
     );
+
 
     std::string toString();
 

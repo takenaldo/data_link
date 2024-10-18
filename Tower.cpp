@@ -1,7 +1,7 @@
 #include <thread>
-#include <iostream>
 #include "Tower.h"
 #include "DataLinkMessage.h"
+
 #include "LogonResponse.h"
 #include "ConnectionRequest.h"
 
@@ -11,34 +11,71 @@ void Tower::send(std::string message){
 
     DataLinkMessage dataLinkMessage {message};
     // TODO: dataLinkMessage valid
-    zmq::context_t senderCtx;
-    zmq::socket_t senderSocket;
-    TowerSender towerSender {senderIp, senderCtx, zmq::socket_type::push};
+    zmq::context_t sender_ctx;
+    zmq::socket_t sender_socket;
+    TowerSender towerSender {sender_ip, sender_ctx, zmq::socket_type::push};
 
-    zmq::message_t zmqMessage(message.size());
-    memcpy(zmqMessage.data(), message.data(), message.size());
-    towerSender.socket.send(zmqMessage, zmq::send_flags::none);
+    zmq::message_t zmq_message(message.size());
+    memcpy(zmq_message.data(), message.data(), message.size());
+    towerSender.socket.send(zmq_message, zmq::send_flags::none);
+    std::cerr << "Sent: " << message << std::endl;
     std::this_thread::sleep_for(std::chrono::seconds(1));
 
 }
 
+
 void Tower::send(DataLinkMessage message){
+    // if valid
     send(message.toString());
 }
 
+
 void Tower::startReceiving(){
+    std::cout<<receiver_ip<<std::endl;
 
     try{
         zmq::context_t ctx(1);
-        TowerReceiver receiver{receiverIp, ctx, zmq::socket_type::pull};
-        std::string receivedMessage = receiver.recieve();
-        std::cout<<"Received Message: "<<receivedMessage<<"\n\n\n";
+        TowerReceiver receiver{receiver_ip, ctx, zmq::socket_type::pull};
+        std::string received_message = receiver.recieve();
+        std::cout<<"Received Message: "<<received_message<<"\n\n\n";
 
-        DataLinkMessage datalinkMessage{receivedMessage};
+        DataLinkMessage datalinkMessage{received_message};
 
-        if (datalinkMessage.id == DataLinkMessage::DmLogonRequest){
+        if (datalinkMessage.id == DataLinkMessage::DM_LOGON_REQUEST){
             std::cout<<"\n\nLOGON REQUEST RECEIVED\n";
-            std::this_thread::sleep_for(std::chrono::seconds(1));
+             int choice = 0 ;
+             std::cout << "Choose Response to Send:\n";
+                std::cout << "(1). Accepted\n";
+                std::cout << "(2). Rejected\n";
+                // std::cout << "(3). Other\n";
+                std::cout << "Enter your choice: ";
+           
+                std::cin >> choice;
+
+                LogonResponse logonResponse("Communication Stablished"); // Default response
+
+               switch (choice) {
+                    case 1:
+                        logonResponse.response = "accepted";
+                        break;
+                    case 2:
+                        logonResponse.response = "rejected";
+                        std::cout << "Enter failure reason: ";
+                        std::cin.ignore(); // Clear the input buffer
+                        break;
+                    default:
+                        std::cout << "Invalid choice. Defaulting to 'accepted'." << std::endl;
+                        logonResponse.response = "On process";
+                        break;
+                    }
+             std::cout << "Sending Response: " << logonResponse.response << std::endl;
+
+            // Serialize and send the response
+            std::string responseStr = logonResponse.toString();
+            send(responseStr);
+
+            std::cout << "Response Sent Successfully.\n";
+
         }
 
     }
@@ -49,56 +86,46 @@ void Tower::startReceiving(){
 
 int main(){
 
+
     Tower tower{};
 
     std::cout<<"Start Receiving ..."<<std::endl; 
     tower.startReceiving();
 
-    int input = 0;
-    std::cout<<"Choose What To Do:\n";
-    std::cout<<"(1). Accept\n";
-    std::cout<<"(2). Decline\n\n";
+    /// ...............connection request 
+     int input  = 0;
+
+    std::cout<<"Connection request :\n";
+    std::cout<<"(1). yes\n";
+    std::cout<<"(2). No\n\n";
+
     std::cin>>input;
-    LogonResponse logonResponse = {
-        1, "logon request accepted",
-    };
-    ConnectionRequest connectionRequest ={
-        100, "connection request"
+    ConnectionRequest connectionRequest = {
+        99, "HIAB"
     };
 
-   switch (input)
-{
-    case 1:
+    switch (input)
     {
-        std::cout << "\n\nSending response to aircraft...\n\n";
-        tower.send(logonResponse.toString());
+        case 1:
+           
+            std::cout<<"\n\nSending Connection Request to Aircraft ...\n\n";
+           connectionRequest.message = "ACCEPTED\n";
+            tower.send(connectionRequest.toString());
+             if (connectionRequest.responseRequired)
+            {
+                std::cout<<"Connected successfuly\n ";
+            }
+            
+            break;
+        
+        case 2:
+              connectionRequest.message = "REJECTED";
+            tower.send(connectionRequest.toString());
 
-        int input1 = 0;
-        std::cout << "Request a connection:\n";
-        std::cout << "(1). yes\n";
-        std::cout << "(2). no\n\n";
-        std::cin >> input1;
+            std::cout << "Connection rejected.\n" << std::endl;
+            break;
 
-        switch (input1)
-        {
-            case 1:
-                std::cout << "Requesting a connection..." << std::endl;
-                std::this_thread::sleep_for(std::chrono::seconds(1));
-                tower.send(connectionRequest.toString());
-                tower.startReceiving();
-                break;
-
-            default:
-                std::cout << "No connection requested." << std::endl;
-                break;
-        }
-        break;
     }
-    default:
-        std::cout << "Invalid input." << std::endl;
-        break;
-}
 
-return 0;
-
+    return 0;
 }

@@ -1,16 +1,18 @@
 #include "ConnectionResponse.h"
 #include <string>
 
-ConnectionResponse::ConnectionResponse(
-    int ident,
-    std::string responseMessage
-    ){
-    id = ident;
-    this->response = responseMessage;
-
-    this ->message = this->response;
+ConnectionResponse::ConnectionResponse(std::string resp)
+    : response(resp) , msg(resp) {
+      
+    
+    // this ->msg = this ->response;
     
     }
- ConnectionResponse::~ConnectionResponse(){
+
+
+
+std::string ConnectionResponse::toString() const {
     
- }
+  std::string msg = "Response: " + response;
+  return msg;
+}

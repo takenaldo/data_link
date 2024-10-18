@@ -1,14 +1,12 @@
 #include "ConnectionRequest.h"
-#include <string>
 
-ConnectionRequest::ConnectionRequest(int ident, std::string requestedMessage)
-{
+ConnectionRequest::ConnectionRequest(int ident, const std::string& mesg) {
     id = ident;
-     this->messageR = requestedMessage;
-
-    this ->message = this ->messageR;
+    this->mesg = mesg;  
+    this->message = this->mesg;
 }
- ConnectionRequest::~ConnectionRequest(){
-    
- }
 
+
+std::string ConnectionRequest::toString() {
+    return messageType + " , " + std::to_string(id) + " , " + message;
+}

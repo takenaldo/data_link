@@ -1,18 +1,17 @@
-#include <string>
+#ifndef CONNECTION_REQUEST_H
+#define CONNECTION_REQUEST_H
+
 #include "DataLinkMessage.h"
 
-class ConnectionRequest: public DataLinkMessage
-{
-private:
-    /* data */
+class ConnectionRequest : public DataLinkMessage {
 public:
+    std::string mesg;          
+    std::string messageType = "UM";  
+    bool responseRequired = true;    
 
-    std::string AtcuId;
-    std::string messageR;
-    std::string messageType = "UM";
+    ConnectionRequest(int id, const std::string& mesg);
 
-    bool responseRequired = true;
-    ~ConnectionRequest();
-
-    ConnectionRequest(int id, std::string requestedMessage);
+    virtual std::string toString();
 };
+
+#endif

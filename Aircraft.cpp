@@ -1,73 +1,150 @@
 #include <thread>
 #include "Aircraft.h"
+#include "AircraftReceiver.h"
 #include "LogonRequest.h"
 #include "ConnectionResponse.h"
-Aircraft::Aircraft(){
-    zmq::context_t senderCtx;
-    zmq::socket_t senderSocket;
 
-    zmq::context_t receiverCtx;
-    zmq::socket_t receiverSocket;
+
+Aircraft::Aircraft(){
+    zmq::context_t sender_ctx;
+    zmq::socket_t sender_socket;
+    
+    zmq::context_t receiver_ctx;
+    zmq::socket_t receiver_socket;
+
 }
 
 Aircraft::Aircraft (
-    std::string aircraftIdentification,
-    std::string airaftRegistration,
-    std::string aircraftAddress,
+    std::string aircraft_identification,
+    std::string airaft_registration,
+    std::string aircraft_address,
     std::string departure,
     std::string destination
-){
-    this->identification = aircraftIdentification;
-    this->registeration = airaftRegistration;
-    this->aircraftAddress = aircraftAddress;
+)
+{
+    this->identification = aircraft_identification;
+    this->registeration = airaft_registration;
+    this->aircraft_address = aircraft_address;
     this->departure = departure;
     this->destination = destination;
 }
+
 
 void Aircraft::send(std::string message){
 
     DataLinkMessage dataLinkMessage {message};
     // TODO: dataLinkMessage valid
 
-    zmq::context_t senderCtx;
-    zmq::socket_t senderSocket;
-    MockDownlinkSender mockDownLinkSender {senderIp, senderCtx, zmq::socket_type::push};
 
-    zmq::message_t zmqMessage(message.size());
+    zmq::context_t sender_ctx;
+    zmq::socket_t sender_socket;
+    MockDownlinkSender mockDownLinkSender {sender_ip, sender_ctx, zmq::socket_type::push};
+
+    zmq::message_t zmq_message(message.size());
     
-    memcpy(zmqMessage.data(), message.data(), message.size());
+    memcpy(zmq_message.data(), message.data(), message.size());
 
-    mockDownLinkSender.socket.send(zmqMessage, zmq::send_flags::none);
+    mockDownLinkSender.socket.send(zmq_message, zmq::send_flags::none);
     
     std::cerr << "Sent: " << message << std::endl;
     std::this_thread::sleep_for(std::chrono::seconds(1));
 
 }
 
+
 void Aircraft::send(DataLinkMessage message){
     // if valid
     send(message.toString());
 }
 
-void Aircraft::startReceiving(){
 
-    try{
-        zmq::context_t receiverCtx(1);
-        zmq::socket_t receiverSocket;
-        AircraftReceiver receiver{receiverIp, receiverCtx, zmq::socket_type::pull};
+// Start Receiving Messages
+void Aircraft::startReceiving() {
+    std::cout << "Aircraft is ready to receive Logon Responses...\n" << std::endl;
+
+    // while (true) {
+        try {
+         zmq::context_t receiver_ctx(1);
+         zmq::socket_t receiver_socket;    
+         AircraftReceiver receiver{receiver_ip,  receiver_ctx, zmq::socket_type::pull};
         std::string receivedMessage = receiver.recieve();
         std::cout<<"Received Message: "<<receivedMessage<<"\n\n";
+        
+
+            // zmq::socket_t receiver_socket;
+            // zmq::message_t zmq_message;
+            //  std::string receiver_ip = "tcp://127.0.0.1:5555";
+            // zmq::context_t receiver_ctx{1}; // Initialize with 1 I/O thread
+
+            // AircraftReceiver receiver{receiver_ip,  receiver_ctx, zmq::socket_type::pull };
+            // std::string receivedMessage = receiver.recieve();
+            // std::cout<<"Received Message: "<<receivedMessage<<"\n\n";
+    
+        }
+        catch (const zmq::error_t& e) {
+            std::cerr << "ZeroMQ Error: " << e.what() << std::endl;
+            // break; // Exit loop on error
+        }
+        // catch (const std::invalid_argument& e) {
+        //     std::cerr << "Invalid Argument: " << e.what() << std::endl;
+        // }
     }
+
+    //// //  =========================connection Response 
+
+
+    void Aircraft::startResponse(){
+    std::cout<<receiver_ip<<std::endl;
+
+    try{
+        zmq::context_t ctx(1);
+        AircraftReceiver receiver{receiver_ip, ctx, zmq::socket_type::pull};
+        std::string received_message = receiver.recieve();
+        std::cout<<"Connected ======== "<<received_message<<"\n\n\n";
+
+        DataLinkMessage datalinkMessage{received_message};
+         std::cout << "Received Message ID: " << datalinkMessage.id << std::endl;
+        std::cout << "Expected DM_CONNECTION_RESPONSE ID: " << DataLinkMessage::DM_CONNECTION_RESPONSE << std::endl;
+
+        if (datalinkMessage.id == DataLinkMessage::DM_CONNECTION_RESPONSE){
+            std::cout << "\n\nCONNECTION REQUEST RECEIVED\n";
+             std::cout << "Connection Status : " << datalinkMessage.message << std::endl;
+
+                if (datalinkMessage.message == "ACCEPTED") {
+                    std::cout << "Connection has been accepted." << std::endl;
+                    
+                }
+                else if (datalinkMessage.message == "REJECTED") {
+                    std::cout << "Connection has been rejected." << std::endl;
+                 
+                }
+                else {
+                    std::cout << "Unknown connection status received." << std::endl;
+                }
+
+
+        } else {
+            std::cout << "Received message ID does not match DM_CONNECTION_RESPONSE.\n";
+        }
+
+    }
+       
      catch (const std::invalid_argument& e) {
         std::cout<<e.what();
      }
 }
+
+
+
+
+
 
 int main(){
 
     Aircraft aircraft{"ET-AUE", "N704YA", "A0B1C2","HAAB", "HASC"};
 
     std::cout<<"Start Sending ..."<<std::endl; 
+
 
     int input  = 0;
 
@@ -79,49 +156,28 @@ int main(){
     LogonRequest logonRequest = {
         99, "HIAB", "ET-AUE", "A0B1C2", "HAAB", "HASC"
     };
+
     switch (input)
     {
         case 1:
             std::cout<<"\n\nSending Logon Request to Tower...\n\n";
             aircraft.send(logonRequest.toString());
-
-            if (logonRequest.responseRequired)
+             if (logonRequest.responseRequired)
             {
                 aircraft.startReceiving();
-                aircraft.startReceiving();
-                std::cout<<"you want to create a connection ?\n";
-                std::cout<<"1. create conection \n";
-                std::cout<<"2. decline \n";
-                int input1;
-                std::cin>>input1;
-               
-                switch (input1)
-                {
-                    case 1:
-                    {
-                        std::cout << "\n\nCreating connection...\n\n";
-                        ConnectionResponse conResponse = {2, "connection created"};
-                        aircraft.send(conResponse.toString());
-                        break;
-                    }
-                    case 2:
-                    {
-                        std::cout << "\n\nRejecting connection...\n\n";
-                        ConnectionResponse conResponse = {2, "connection rejected"};
-                        aircraft.send(conResponse.toString());
-                        break;
-                    }
-                    default:
-                        std::cout << "Invalid input.\n";
-                        break;
-                }
-
+                
+               // aircraft.start_Response();
             }
             
             break;
+        
         case 2:
             break;
 
     }
+
+     aircraft.startResponse();
+
     return 0;
 }
+

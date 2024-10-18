@@ -1,17 +1,24 @@
-#include<string>
-#include"DataLinkMessage.h"
-class ConnectionResponse : public DataLinkMessage
-{
-private:
-    /* data */
+// ConnectionResponse.h
+#ifndef CONNECTION_RESPONSE_H
+#define CONNECTION_RESPONSE_H
+
+#include "DataLinkMessage.h"
+#include <string>
+
+class ConnectionResponse {
 public:
+    
+    std::string response;
+    std::string msg;
+    
+    ConnectionResponse(std::string resp);
 
- std::string response;
-    std::string messageType = "UM";
-    ConnectionResponse(
-        int id,
-        std::string responseMessage
-        );
+    // Parameterized Constructor with optional attributes
+    
+    std::string toString() const;   
+    
 
-    ~ConnectionResponse();
+   
 };
+
+#endif // LOGONRESPONSE_H
