@@ -57,10 +57,13 @@ DataLinkMessage::DataLinkMessage(std::string data_link_message){
 
 DataLinkMessage::DataLinkMessage(      
         std::string messageType,
+        
         int id,
         int min,
         int mrn,
         std::string message,
+        std::string URG,
+        std::string ALRT,
         bool responseRequired
 ){
     this->messageType = messageType;
@@ -68,6 +71,8 @@ DataLinkMessage::DataLinkMessage(
     this->min = min;
     this->mrn = mrn;
     this->message = message;
+    this->ALRT = ALRT;
+    this->URG =  URG;
     this->responseRequired = responseRequired;
 
 }

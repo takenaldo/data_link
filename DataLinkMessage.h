@@ -16,6 +16,8 @@ public:
     std::string message; // actual message
 
     std::string messageType; // UM or DM
+    std::string URG;
+    std::string ALRT;
 
     bool responseRequired;
 
@@ -34,6 +36,8 @@ public:
         int min,
         int mrn,
         std::string message,
+        std::string URG,
+        std::string ALRT,
         bool responseRequired
     );
 
