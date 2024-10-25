@@ -71,8 +71,6 @@ DataLinkMessage::DataLinkMessage(
     this->min = min;
     this->mrn = mrn;
     this->message = message;
-    this->ALRT = ALRT;
-    this->URG =  URG;
     this->responseRequired = responseRequired;
 
 }

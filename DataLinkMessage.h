@@ -16,9 +16,25 @@ public:
     std::string message; // actual message
 
     std::string messageType; // UM or DM
-    std::string URG;
-    std::string ALRT;
+   
 
+    struct URG {
+        enum Type {
+            Low = 4,
+            Normal = 3,
+            Urgent = 2,
+            Distress = 1
+        };
+    };
+
+    struct ALRT {
+        enum Type {
+            NoAlertingRequired = 4,
+            LowAlert = 3,
+            MediumAlert = 2,
+            HighAlert = 1
+        };
+    };
     bool responseRequired;
 
     static const int DM_LOGON_REQUEST = 99;
@@ -32,7 +48,7 @@ public:
 
     DataLinkMessage(
         std::string messageType,
-        int id,
+        int id,        
         int min,
         int mrn,
         std::string message,
