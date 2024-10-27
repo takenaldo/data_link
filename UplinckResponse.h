@@ -11,14 +11,15 @@ public:
     URG::Type urgency;
     ALRT::Type alert;
 
-    UplinkResponse(int id, const std::string& mesg, URG::Type urg , ALRT::Type alrt);
-    UplinkResponse(int id, const std::string& mesg, ALRT::Type alrt);
-    UplinkResponse(int id, const std::string& mesg, URG::Type urg);
-    UplinkResponse(int ident, const std::string &mesg);
+    UplinkResponse(const std::string& mesg, URG::Type urg , ALRT::Type alrt);
+    UplinkResponse(const std::string& mesg, ALRT::Type alrt);
+    UplinkResponse(const std::string& mesg, URG::Type urg);
+    UplinkResponse(const std::string &mesg);
     ~UplinkResponse();
 
     void displayResponseDetails();
     std::string toString();
+    void assignID();
 };
 
 #endif
