@@ -4,16 +4,16 @@
 #include <string>
 #include "DataLinkMessage.h"
 
-class UplinkResponse : public DataLinkMessage
+class UplinkVerticalClearances : public DataLinkMessage
 {
 public:
     std::string message_element;
     URG::Type urgency;
     ALRT::Type alert;
-    UplinkResponse(const std::string &mesg);
-    ~UplinkResponse();
+    UplinkVerticalClearances(const std::string &mesg);
+    ~UplinkVerticalClearances();
 
-    void displayResponseDetails();
+    void displayClearanceDetails();
     std::string toString();
     void assignID();
 };

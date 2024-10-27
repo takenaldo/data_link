@@ -1,28 +1,6 @@
 #include <iostream>
 #include <vector>
 #include "UplinckResponse.h"
-
-UplinkResponse::UplinkResponse(const std::string& mesg, URG::Type urg, ALRT::Type alrt) {
-    urgency = urg;
-    alert = alrt;
-    message_element = mesg;
-    assignID();
-}
-
-UplinkResponse::UplinkResponse(const std::string& mesg, ALRT::Type alrt) {
-    urgency = URG::Normal;
-    alert = alrt;
-    message_element = mesg;
-    assignID();
-}
-
-UplinkResponse::UplinkResponse(const std::string& mesg, URG::Type urg) {
-    urgency = urg;
-    alert = ALRT::LowAlert;
-    message_element = mesg;
-    assignID();
-}
-
 UplinkResponse::UplinkResponse(const std::string& mesg) {
     urgency = URG::Normal;
     alert = ALRT::LowAlert;
