@@ -1,21 +1,13 @@
 #include <iostream>
 #include <string>
-
+#include "DownLink.h" // Ensure this file defines MessageElement if it's being used
 
 enum class MessageIntentUse {
-     WeCanAccept,
-     WeCanNotAccept
-    
+    WeCanAccept,
+    WeCanNotAccept
 };
 
-enum class MessageElement {
-    URG,
-    ALRT,
-    RESP
-};
-
-
-class Message {
+class DownLinkNegotiationResponse {
 protected:
     MessageIntentUse intent;
     MessageElement element;
@@ -24,7 +16,7 @@ protected:
     std::string response;
 
 public:
-    Message(MessageIntentUse intent, MessageElement element)
+    DownLinkNegotiationResponse(MessageIntentUse intent, MessageElement element)
         : intent(intent), element(element) {}
 
     virtual std::string getInfo() const {
@@ -34,7 +26,6 @@ public:
 
     virtual std::string processMessage() const = 0;
 
-    // Set the flags (urgency, alert, response) based on chosen parameters
     void setFlags(const std::string& urg, const std::string& alrt, const std::string& resp) {
         urgency = urg;
         alert = alrt;
@@ -42,16 +33,14 @@ public:
     }
 
 private:
-    // Convert intent enum to string
     std::string getIntentName() const {
         switch (intent) {
-            case MessageIntentUse:: WeCanAccept: return " WeCanAccept";
-            case MessageIntentUse::  WeCanNotAccept: return "  WeCanNotAccept";
+            case MessageIntentUse::WeCanAccept: return "WeCanAccept";
+            case MessageIntentUse::WeCanNotAccept: return "WeCanNotAccept";
             default: return "UNKNOWN";
         }
     }
 
-    // Convert element enum to string
     std::string getElementName() const {
         switch (element) {
             case MessageElement::URG: return "URG";
@@ -62,14 +51,14 @@ private:
     }
 };
 
-// Downlink Message Class (Inherits from Message)
-class DownlinkMessage : public Message {
+// Downlink Message Class (Inherits from DownLinkNegotiationResponse)
+class DownlinkMessage : public DownLinkNegotiationResponse {
 public:
     DownlinkMessage(MessageIntentUse intent, MessageElement element)
-        : Message(intent, element) {}
+        : DownLinkNegotiationResponse(intent, element) {}
 
     std::string processMessage() const override {
-        return "Processing  Request Voice Contact Frequency : " + getInfo();
+        return "Processing Request Voice Contact Frequency: " + getInfo();
     }
 };
 
@@ -77,18 +66,16 @@ public:
 MessageIntentUse chooseIntent() {
     int choice;
     std::cout << "Choose Message Intent:\n"
-              << "1.  WeCanAccept\n"
-              << "2.   WeCanNotAccept\n";
-            
+              << "1. WeCanAccept\n"
+              << "2. WeCanNotAccept\n";
     std::cin >> choice;
 
     switch (choice) {
-        case 1: return MessageIntentUse:: WeCanAccept;
-        case 2: return MessageIntentUse::  WeCanNotAccept;
-        
+        case 1: return MessageIntentUse::WeCanAccept;
+        case 2: return MessageIntentUse::WeCanNotAccept;
         default:
-            std::cout << "Invalid choice, defaulting to Request.\n";
-            return MessageIntentUse:: WeCanAccept;
+            std::cout << "Invalid choice, defaulting to WeCanAccept.\n";
+            return MessageIntentUse::WeCanAccept;
     }
 }
 
@@ -111,7 +98,7 @@ MessageElement chooseElement() {
     }
 }
 
-// Function to set flags (N, M, L, etc.) for Downlink Message
+// Function to set flags for Downlink Message
 void setDownlinkFlags(DownlinkMessage& message) {
     std::string urg, alrt, resp;
     std::cout << "Enter URG flag (e.g., N, M): ";
@@ -122,22 +109,4 @@ void setDownlinkFlags(DownlinkMessage& message) {
     std::cin >> resp;
 
     message.setFlags(urg, alrt, resp);
-}
-
-// Main function to run the program
-int main() {
-    // Choosing Intent and Element for the Downlink Message
-    MessageIntentUse intent = chooseIntent();
-    MessageElement element = chooseElement();
-
-    // Create Downlink Message
-    DownlinkMessage downlinkMessage(intent, element);
-
-    // Set the flags for the message
-    setDownlinkFlags(downlinkMessage);
-
-    // Process and display the message information
-    std::cout << downlinkMessage.processMessage() << std::endl;
-
-    return 0;
 }

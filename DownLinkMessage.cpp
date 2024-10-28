@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include "DownLink.h"
 
 // Enum for Message Intent Use
 enum class MessageIntentUse {
@@ -11,24 +12,17 @@ enum class MessageIntentUse {
     NEGATIVE
 };
 
-// Enum for Message Elements
-enum class MessageElement {
-    URG,
-    ALRT,
-    RESP
-};
-
 // Base Message Class
-class Message {
+class DownLinkMessages {
 protected:
     MessageIntentUse intent;
     MessageElement element;
     std::string urgency;
-    std::string alert;z
+    std::string alert;
     std::string response;
 
 public:
-    Message(MessageIntentUse intent, MessageElement element)
+    DownLinkMessages(MessageIntentUse intent, MessageElement element)
         : intent(intent), element(element) {}
 
     virtual std::string getInfo() const {
@@ -70,11 +64,11 @@ private:
     }
 };
 
-// Downlink Message Class (Inherits from Message)
-class DownlinkMessage : public Message {
+// Downlink Message Class (Inherits from DownLinkMessages)
+class DownlinkMessage : public DownLinkMessages {
 public:
     DownlinkMessage(MessageIntentUse intent, MessageElement element)
-        : Message(intent, element) {}
+        : DownLinkMessages(intent, element) {}
 
     std::string processMessage() const override {
         return "Processing Downlink message: " + getInfo();
@@ -135,23 +129,5 @@ void setDownlinkFlags(DownlinkMessage& message) {
     std::cout << "Enter RESP flag (e.g., Y, N): ";
     std::cin >> resp;
 
-    message.setFlags(urg, alrt, resp);
-}
-
-// Main function to run the program
-int main() {
-    // Choosing Intent and Element for the Downlink Message
-    MessageIntentUse intent = chooseIntent();
-    MessageElement element = chooseElement();
-
-    // Create Downlink Message
-    DownlinkMessage downlinkMessage(intent, element);
-
-    // Set the flags for the message
-    setDownlinkFlags(downlinkMessage);
-
-    // Process and display the message information
-    std::cout << downlinkMessage.processMessage() << std::endl;
-
-    return 0;
+    message.setFlags(urg, alrt, resp); // Fixed: Call setFlags on message
 }

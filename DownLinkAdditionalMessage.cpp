@@ -1,30 +1,22 @@
 #include <iostream>
 #include <string>
-
+#include "DownLink.h" // Ensure MessageElement is defined in this header
 
 enum class MessageIntentUse {
-     DueToWeather,
-     DueToAircraft
-    
+    DueToWeather,
+    DueToAircraft
 };
 
-enum class MessageElement {
-    URG,
-    ALRT,
-    RESP
-};
-
-
-class Message {
+class DownLinkAdditionalMessage {
 protected:
     MessageIntentUse intent;
-    MessageElement element;
+    MessageElement element; // Make sure MessageElement is defined
     std::string urgency;
     std::string alert;
     std::string response;
 
 public:
-    Message(MessageIntentUse intent, MessageElement element)
+    DownLinkAdditionalMessage(MessageIntentUse intent, MessageElement element)
         : intent(intent), element(element) {}
 
     virtual std::string getInfo() const {
@@ -36,7 +28,7 @@ public:
 
     // Set the flags (urgency, alert, response) based on chosen parameters
     void setFlags(const std::string& urg, const std::string& alrt, const std::string& resp) {
-        urgency = urg;
+        urgency = urg; // Fix the variable name here
         alert = alrt;
         response = resp;
     }
@@ -45,8 +37,8 @@ private:
     // Convert intent enum to string
     std::string getIntentName() const {
         switch (intent) {
-            case MessageIntentUse:: DueToWeather: return " DueToWeather";
-            case MessageIntentUse:: DueToAircraft: return " DueToAircraft";
+            case MessageIntentUse::DueToWeather: return "DueToWeather";
+            case MessageIntentUse::DueToAircraft: return "DueToAircraft";
             default: return "UNKNOWN";
         }
     }
@@ -62,14 +54,14 @@ private:
     }
 };
 
-// Downlink Message Class (Inherits from Message)
-class DownlinkMessage : public Message {
+// Downlink Message Class (Inherits from DownLinkAdditionalMessage)
+class DownlinkMessage : public DownLinkAdditionalMessage {
 public:
     DownlinkMessage(MessageIntentUse intent, MessageElement element)
-        : Message(intent, element) {}
+        : DownLinkAdditionalMessage(intent, element) {}
 
     std::string processMessage() const override {
-        return "Processing  Request Voice Contact Frequency : " + getInfo();
+        return "Processing Request Voice Contact Frequency: " + getInfo();
     }
 };
 
@@ -77,18 +69,17 @@ public:
 MessageIntentUse chooseIntent() {
     int choice;
     std::cout << "Choose Message Intent:\n"
-              << "1.  DueToWeather\n"
-              << "2.  DueToAircraft\n";
-            
+              << "1. DueToWeather\n"
+              << "2. DueToAircraft\n";
+
     std::cin >> choice;
 
     switch (choice) {
-        case 1: return MessageIntentUse:: DueToWeather;
-        case 2: return MessageIntentUse:: DueToAircraft;
-        
+        case 1: return MessageIntentUse::DueToWeather;
+        case 2: return MessageIntentUse::DueToAircraft;
         default:
-            std::cout << "Invalid choice, defaulting to Request.\n";
-            return MessageIntentUse:: DueToWeather;
+            std::cout << "Invalid choice, defaulting to DueToWeather.\n";
+            return MessageIntentUse::DueToWeather;
     }
 }
 
@@ -125,19 +116,4 @@ void setDownlinkFlags(DownlinkMessage& message) {
 }
 
 // Main function to run the program
-int main() {
-    // Choosing Intent and Element for the Downlink Message
-    MessageIntentUse intent = chooseIntent();
-    MessageElement element = chooseElement();
 
-    // Create Downlink Message
-    DownlinkMessage downlinkMessage(intent, element);
-
-    // Set the flags for the message
-    setDownlinkFlags(downlinkMessage);
-
-    // Process and display the message information
-    std::cout << downlinkMessage.processMessage() << std::endl;
-
-    return 0;
-}

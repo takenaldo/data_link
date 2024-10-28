@@ -1,21 +1,13 @@
 #include <iostream>
 #include <string>
-
+#include "DownLink.h"
 
 enum class MessageIntentUse {
-      LEAVING ,
-      CLIMBING
-    
+    LEAVING,
+    CLIMBING
 };
 
-enum class MessageElement {
-    URG,
-    ALRT,
-    RESP
-};
-
-
-class Message {
+class DownLinkReports {
 protected:
     MessageIntentUse intent;
     MessageElement element;
@@ -24,7 +16,7 @@ protected:
     std::string response;
 
 public:
-    Message(MessageIntentUse intent, MessageElement element)
+    DownLinkReports(MessageIntentUse intent, MessageElement element)
         : intent(intent), element(element) {}
 
     virtual std::string getInfo() const {
@@ -45,8 +37,8 @@ private:
     // Convert intent enum to string
     std::string getIntentName() const {
         switch (intent) {
-            case MessageIntentUse:: LEAVING: return " LEAVING";
-            case MessageIntentUse:: CLIMBING: return " CLIMBING";
+            case MessageIntentUse::LEAVING: return "LEAVING";
+            case MessageIntentUse::CLIMBING: return "CLIMBING";
             default: return "UNKNOWN";
         }
     }
@@ -62,14 +54,14 @@ private:
     }
 };
 
-// Downlink Message Class (Inherits from Message)
-class DownlinkMessage : public Message {
+// Downlink Message Class (Inherits from DownLinkReports)
+class DownlinkMessage : public DownLinkReports {
 public:
     DownlinkMessage(MessageIntentUse intent, MessageElement element)
-        : Message(intent, element) {}
+        : DownLinkReports(intent, element) {}
 
     std::string processMessage() const override {
-        return "Processing  Request Voice Contact Frequency : " + getInfo();
+        return "Processing Request Voice Contact Frequency: " + getInfo();
     }
 };
 
@@ -77,18 +69,16 @@ public:
 MessageIntentUse chooseIntent() {
     int choice;
     std::cout << "Choose Message Intent:\n"
-              << "1.  LEAVING\n"
-              << "2.  CLIMBING\n";
-            
+              << "1. LEAVING\n"
+              << "2. CLIMBING\n";
     std::cin >> choice;
 
     switch (choice) {
-        case 1: return MessageIntentUse:: LEAVING;
-        case 2: return MessageIntentUse:: CLIMBING;
-        
+        case 1: return MessageIntentUse::LEAVING;
+        case 2: return MessageIntentUse::CLIMBING;
         default:
-            std::cout << "Invalid choice, defaulting to Request.\n";
-            return MessageIntentUse:: LEAVING;
+            std::cout << "Invalid choice, defaulting to LEAVING.\n";
+            return MessageIntentUse::LEAVING;
     }
 }
 
@@ -122,22 +112,4 @@ void setDownlinkFlags(DownlinkMessage& message) {
     std::cin >> resp;
 
     message.setFlags(urg, alrt, resp);
-}
-
-// Main function to run the program
-int main() {
-    // Choosing Intent and Element for the Downlink Message
-    MessageIntentUse intent = chooseIntent();
-    MessageElement element = chooseElement();
-
-    // Create Downlink Message
-    DownlinkMessage downlinkMessage(intent, element);
-
-    // Set the flags for the message
-    setDownlinkFlags(downlinkMessage);
-
-    // Process and display the message information
-    std::cout << downlinkMessage.processMessage() << std::endl;
-
-    return 0;
 }

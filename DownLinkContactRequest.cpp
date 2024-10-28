@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-
+#include "DownLink.h"
 
 enum class MessageIntentUse {
      RequestVoiceContact ,
@@ -8,14 +8,7 @@ enum class MessageIntentUse {
     
 };
 
-enum class MessageElement {
-    URG,
-    ALRT,
-    RESP
-};
-
-
-class Message {
+class DownLinkContactRequest {
 protected:
     MessageIntentUse intent;
     MessageElement element;
@@ -24,7 +17,7 @@ protected:
     std::string response;
 
 public:
-    Message(MessageIntentUse intent, MessageElement element)
+    DownLinkContactRequest(MessageIntentUse intent, MessageElement element)   
         : intent(intent), element(element) {}
 
     virtual std::string getInfo() const {
@@ -63,10 +56,10 @@ private:
 };
 
 // Downlink Message Class (Inherits from Message)
-class DownlinkMessage : public Message {
+class DownlinkMessage : public DownLinkContactRequest {
 public:
     DownlinkMessage(MessageIntentUse intent, MessageElement element)
-        : Message(intent, element) {}
+        : DownLinkContactRequest(intent, element) {}
 
     std::string processMessage() const override {
         return "Processing  Request Voice Contact Frequency : " + getInfo();
@@ -121,23 +114,6 @@ void setDownlinkFlags(DownlinkMessage& message) {
     std::cout << "Enter RESP flag (e.g., Y, N): ";
     std::cin >> resp;
 
-    message.setFlags(urg, alrt, resp);
+   message.setFlags(urg, alrt, resp);
 }
 
-// Main function to run the program
-int main() {
-    // Choosing Intent and Element for the Downlink Message
-    MessageIntentUse intent = chooseIntent();
-    MessageElement element = chooseElement();
-
-    // Create Downlink Message
-    DownlinkMessage downlinkMessage(intent, element);
-
-    // Set the flags for the message
-    setDownlinkFlags(downlinkMessage);
-
-    // Process and display the message information
-    std::cout << downlinkMessage.processMessage() << std::endl;
-
-    return 0;
-}

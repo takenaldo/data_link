@@ -1,21 +1,13 @@
 #include <iostream>
 #include <string>
-
+#include "DownLink.h"
 
 enum class MessageIntentUse {
-      WhenSpeed ,
-      WhenSpeedToSpeed
-    
+    WhenSpeed,
+    WhenSpeedToSpeed
 };
 
-enum class MessageElement {
-    URG,
-    ALRT,
-    RESP
-};
-
-
-class Message {
+class DownLinkNegotiationRequests {
 protected:
     MessageIntentUse intent;
     MessageElement element;
@@ -24,7 +16,7 @@ protected:
     std::string response;
 
 public:
-    Message(MessageIntentUse intent, MessageElement element)
+    DownLinkNegotiationRequests(MessageIntentUse intent, MessageElement element)
         : intent(intent), element(element) {}
 
     virtual std::string getInfo() const {
@@ -45,8 +37,8 @@ private:
     // Convert intent enum to string
     std::string getIntentName() const {
         switch (intent) {
-            case MessageIntentUse:: WhenSpeed: return " WhenSpeed";
-            case MessageIntentUse:: WhenSpeedToSpeed: return " WhenSpeedToSpeed";
+            case MessageIntentUse::WhenSpeed: return "WhenSpeed";
+            case MessageIntentUse::WhenSpeedToSpeed: return "WhenSpeedToSpeed";
             default: return "UNKNOWN";
         }
     }
@@ -62,14 +54,14 @@ private:
     }
 };
 
-// Downlink Message Class (Inherits from Message)
-class DownlinkMessage : public Message {
+// Downlink Message Class (Inherits from DownLinkNegotiationRequests)
+class DownlinkMessage : public DownLinkNegotiationRequests {
 public:
     DownlinkMessage(MessageIntentUse intent, MessageElement element)
-        : Message(intent, element) {}
+        : DownLinkNegotiationRequests(intent, element) {}
 
     std::string processMessage() const override {
-        return "Processing  Request Voice Contact Frequency : " + getInfo();
+        return "Processing Request Voice Contact Frequency: " + getInfo();
     }
 };
 
@@ -77,18 +69,16 @@ public:
 MessageIntentUse chooseIntent() {
     int choice;
     std::cout << "Choose Message Intent:\n"
-              << "1.WhenSpeed\n"
-              << "2.WhenSpeedToSpeed\n";
-            
+              << "1. WhenSpeed\n"
+              << "2. WhenSpeedToSpeed\n";
     std::cin >> choice;
 
     switch (choice) {
-        case 1: return MessageIntentUse:: WhenSpeed;
-        case 2: return MessageIntentUse:: WhenSpeedToSpeed;
-        
+        case 1: return MessageIntentUse::WhenSpeed;
+        case 2: return MessageIntentUse::WhenSpeedToSpeed;
         default:
-            std::cout << "Invalid choice, defaulting to Request.\n";
-            return MessageIntentUse:: WhenSpeed;
+            std::cout << "Invalid choice, defaulting to WhenSpeed.\n";
+            return MessageIntentUse::WhenSpeed;
     }
 }
 
@@ -124,20 +114,3 @@ void setDownlinkFlags(DownlinkMessage& message) {
     message.setFlags(urg, alrt, resp);
 }
 
-// Main function to run the program
-int main() {
-    // Choosing Intent and Element for the Downlink Message
-    MessageIntentUse intent = chooseIntent();
-    MessageElement element = chooseElement();
-
-    // Create Downlink Message
-    DownlinkMessage downlinkMessage(intent, element);
-
-    // Set the flags for the message
-    setDownlinkFlags(downlinkMessage);
-
-    // Process and display the message information
-    std::cout << downlinkMessage.processMessage() << std::endl;
-
-    return 0;
-}

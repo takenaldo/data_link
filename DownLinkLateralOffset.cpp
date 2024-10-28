@@ -1,30 +1,24 @@
 #include <iostream>
 #include <string>
+#include "DownLink.h"
 
-
+// Enum for message intent
 enum class MessageIntentUse {
-     RouteOffsetRequest ,
-     RouteOffsetAtRequest
-    
+    RouteOffsetRequest,
+    RouteOffsetAtRequest
 };
 
-enum class MessageElement {
-    URG,
-    ALRT,
-    RESP
-};
-
-
-class Message {
+// DownLinkLateralOffset base class
+class DownLinkLateralOffset {
 protected:
     MessageIntentUse intent;
-    MessageElement element;
+    MessageElement element;  // Assuming MessageElement is defined in "DownLink.h"
     std::string urgency;
     std::string alert;
     std::string response;
 
 public:
-    Message(MessageIntentUse intent, MessageElement element)
+    DownLinkLateralOffset(MessageIntentUse intent, MessageElement element)
         : intent(intent), element(element) {}
 
     virtual std::string getInfo() const {
@@ -34,7 +28,7 @@ public:
 
     virtual std::string processMessage() const = 0;
 
-    // Set the flags (urgency, alert, response) based on chosen parameters
+    // Set flags
     void setFlags(const std::string& urg, const std::string& alrt, const std::string& resp) {
         urgency = urg;
         alert = alrt;
@@ -45,8 +39,8 @@ private:
     // Convert intent enum to string
     std::string getIntentName() const {
         switch (intent) {
-            case MessageIntentUse::RouteOffsetRequest: return "REQUEST";
-            case MessageIntentUse::RouteOffsetAtRequest: return "REQUEST BLOCK";
+            case MessageIntentUse::RouteOffsetRequest: return "Route Offset Request";
+            case MessageIntentUse::RouteOffsetAtRequest: return "Route Offset At Request";
             default: return "UNKNOWN";
         }
     }
@@ -62,11 +56,11 @@ private:
     }
 };
 
-// Downlink Message Class (Inherits from Message)
-class DownlinkMessage : public Message {
+// DownlinkMessage class inheriting from DownLinkLateralOffset
+class DownlinkMessage : public DownLinkLateralOffset {
 public:
     DownlinkMessage(MessageIntentUse intent, MessageElement element)
-        : Message(intent, element) {}
+        : DownLinkLateralOffset(intent, element) {}
 
     std::string processMessage() const override {
         return "Processing Vertical Request Downlink message: " + getInfo();
@@ -78,14 +72,12 @@ MessageIntentUse chooseIntent() {
     int choice;
     std::cout << "Choose Message Intent:\n"
               << "1. RouteOffsetRequest\n"
-              << "2. REQUEST_BLOCK\n";
-            
+              << "2. RouteOffsetAtRequest\n";
     std::cin >> choice;
 
     switch (choice) {
         case 1: return MessageIntentUse::RouteOffsetRequest;
         case 2: return MessageIntentUse::RouteOffsetAtRequest;
-        
         default:
             std::cout << "Invalid choice, defaulting to RouteOffsetRequest.\n";
             return MessageIntentUse::RouteOffsetRequest;
@@ -124,20 +116,4 @@ void setDownlinkFlags(DownlinkMessage& message) {
     message.setFlags(urg, alrt, resp);
 }
 
-// Main function to run the program
-int main() {
-    // Choosing Intent and Element for the Downlink Message
-    MessageIntentUse intent = chooseIntent();
-    MessageElement element = chooseElement();
 
-    // Create Downlink Message
-    DownlinkMessage downlinkMessage(intent, element);
-
-    // Set the flags for the message
-    setDownlinkFlags(downlinkMessage);
-
-    // Process and display the message information
-    std::cout << downlinkMessage.processMessage() << std::endl;
-
-    return 0;
-}

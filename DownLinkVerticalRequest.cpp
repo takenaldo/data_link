@@ -1,21 +1,15 @@
 #include <iostream>
 #include <string>
-
+#include "DownLink.h"
 
 enum class MessageIntentUse {
-    REQUEST ,
+    REQUEST,
     REQUEST_BLOCK
-    
-};
-
-enum class MessageElement {
-    URG,
-    ALRT,
-    RESP
 };
 
 
-class Message {
+
+class DownLinkVerticalRequest {
 protected:
     MessageIntentUse intent;
     MessageElement element;
@@ -24,7 +18,7 @@ protected:
     std::string response;
 
 public:
-    Message(MessageIntentUse intent, MessageElement element)
+    DownLinkVerticalRequest(MessageIntentUse intent, MessageElement element)
         : intent(intent), element(element) {}
 
     virtual std::string getInfo() const {
@@ -34,7 +28,6 @@ public:
 
     virtual std::string processMessage() const = 0;
 
-    // Set the flags (urgency, alert, response) based on chosen parameters
     void setFlags(const std::string& urg, const std::string& alrt, const std::string& resp) {
         urgency = urg;
         alert = alrt;
@@ -42,7 +35,6 @@ public:
     }
 
 private:
-    // Convert intent enum to string
     std::string getIntentName() const {
         switch (intent) {
             case MessageIntentUse::REQUEST: return "REQUEST";
@@ -51,7 +43,6 @@ private:
         }
     }
 
-    // Convert element enum to string
     std::string getElementName() const {
         switch (element) {
             case MessageElement::URG: return "URG";
@@ -62,37 +53,33 @@ private:
     }
 };
 
-// Downlink Message Class (Inherits from Message)
-class DownlinkMessage : public Message {
+class DownlinkMessage : public DownLinkVerticalRequest {
 public:
     DownlinkMessage(MessageIntentUse intent, MessageElement element)
-        : Message(intent, element) {}
+        : DownLinkVerticalRequest(intent, element) {}
 
     std::string processMessage() const override {
         return "Processing Vertical Request Downlink message: " + getInfo();
     }
 };
 
-// Function to choose Message Intent
 MessageIntentUse chooseIntent() {
     int choice;
     std::cout << "Choose Message Intent:\n"
               << "1. REQUEST\n"
               << "2. REQUEST_BLOCK\n";
-            
+
     std::cin >> choice;
 
     switch (choice) {
         case 1: return MessageIntentUse::REQUEST;
         case 2: return MessageIntentUse::REQUEST_BLOCK;
-        
         default:
             std::cout << "Invalid choice, defaulting to REQUEST.\n";
             return MessageIntentUse::REQUEST;
     }
 }
 
-// Function to choose Message Element
 MessageElement chooseElement() {
     int choice;
     std::cout << "Choose Message Element:\n"
@@ -111,7 +98,6 @@ MessageElement chooseElement() {
     }
 }
 
-// Function to set flags (N, M, L, etc.) for Downlink Message
 void setDownlinkFlags(DownlinkMessage& message) {
     std::string urg, alrt, resp;
     std::cout << "Enter URG flag (e.g., N, M): ";
@@ -124,19 +110,14 @@ void setDownlinkFlags(DownlinkMessage& message) {
     message.setFlags(urg, alrt, resp);
 }
 
-// Main function to run the program
 int main() {
-    // Choosing Intent and Element for the Downlink Message
     MessageIntentUse intent = chooseIntent();
     MessageElement element = chooseElement();
 
-    // Create Downlink Message
     DownlinkMessage downlinkMessage(intent, element);
 
-    // Set the flags for the message
     setDownlinkFlags(downlinkMessage);
 
-    // Process and display the message information
     std::cout << downlinkMessage.processMessage() << std::endl;
 
     return 0;

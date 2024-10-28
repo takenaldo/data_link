@@ -1,21 +1,13 @@
 #include <iostream>
 #include <string>
-
+#include "DownLink.h"  // Ensure this header defines MessageElement
 
 enum class MessageIntentUse {
-     ERROR ,
-     NotCurrentData
-    
+    Error,
+    NotCurrentData
 };
 
-enum class MessageElement {
-    URG,
-    ALRT,
-    RESP
-};
-
-
-class Message {
+class DownLinkSystemManagement {
 protected:
     MessageIntentUse intent;
     MessageElement element;
@@ -24,7 +16,7 @@ protected:
     std::string response;
 
 public:
-    Message(MessageIntentUse intent, MessageElement element)
+    DownLinkSystemManagement(MessageIntentUse intent, MessageElement element)
         : intent(intent), element(element) {}
 
     virtual std::string getInfo() const {
@@ -34,7 +26,6 @@ public:
 
     virtual std::string processMessage() const = 0;
 
-    // Set the flags (urgency, alert, response) based on chosen parameters
     void setFlags(const std::string& urg, const std::string& alrt, const std::string& resp) {
         urgency = urg;
         alert = alrt;
@@ -42,16 +33,14 @@ public:
     }
 
 private:
-    // Convert intent enum to string
     std::string getIntentName() const {
         switch (intent) {
-            case MessageIntentUse::  ERROR: return "  ERROR";
-            case MessageIntentUse:: NotCurrentData: return " NotCurrentData";
+            case MessageIntentUse::Error: return "Error";
+            case MessageIntentUse::NotCurrentData: return "Not Current Data";
             default: return "UNKNOWN";
         }
     }
 
-    // Convert element enum to string
     std::string getElementName() const {
         switch (element) {
             case MessageElement::URG: return "URG";
@@ -62,14 +51,14 @@ private:
     }
 };
 
-// Downlink Message Class (Inherits from Message)
-class DownlinkMessage : public Message {
+// Downlink Message Class (Inherits from DownLinkSystemManagement)
+class DownlinkMessage : public DownLinkSystemManagement {
 public:
     DownlinkMessage(MessageIntentUse intent, MessageElement element)
-        : Message(intent, element) {}
+        : DownLinkSystemManagement(intent, element) {}
 
     std::string processMessage() const override {
-        return "Processing  Request Voice Contact Frequency : " + getInfo();
+        return "Processing Request Voice Contact Frequency: " + getInfo();
     }
 };
 
@@ -77,18 +66,17 @@ public:
 MessageIntentUse chooseIntent() {
     int choice;
     std::cout << "Choose Message Intent:\n"
-              << "1.   ERROR\n"
-              << "2.  NotCurrentData\n";
-            
+              << "1. Error\n"
+              << "2. Not Current Data\n";
+    
     std::cin >> choice;
 
     switch (choice) {
-        case 1: return MessageIntentUse::  ERROR;
-        case 2: return MessageIntentUse:: NotCurrentData;
-        
+        case 1: return MessageIntentUse::Error;
+        case 2: return MessageIntentUse::NotCurrentData;
         default:
-            std::cout << "Invalid choice, defaulting to Request.\n";
-            return MessageIntentUse::  ERROR;
+            std::cout << "Invalid choice, defaulting to Error.\n";
+            return MessageIntentUse::Error;
     }
 }
 
@@ -111,7 +99,7 @@ MessageElement chooseElement() {
     }
 }
 
-// Function to set flags (N, M, L, etc.) for Downlink Message
+// Function to set flags for Downlink Message
 void setDownlinkFlags(DownlinkMessage& message) {
     std::string urg, alrt, resp;
     std::cout << "Enter URG flag (e.g., N, M): ";
@@ -124,20 +112,3 @@ void setDownlinkFlags(DownlinkMessage& message) {
     message.setFlags(urg, alrt, resp);
 }
 
-// Main function to run the program
-int main() {
-    // Choosing Intent and Element for the Downlink Message
-    MessageIntentUse intent = chooseIntent();
-    MessageElement element = chooseElement();
-
-    // Create Downlink Message
-    DownlinkMessage downlinkMessage(intent, element);
-
-    // Set the flags for the message
-    setDownlinkFlags(downlinkMessage);
-
-    // Process and display the message information
-    std::cout << downlinkMessage.processMessage() << std::endl;
-
-    return 0;
-}
