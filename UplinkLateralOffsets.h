@@ -7,8 +7,8 @@
 class UplinkLateralOffsets : public DataLinkMessage
 {
 public:
-    std::string message_element;
-    URG::Type urgency;
+    std::string MessageElement;
+    URGANCY::Type URGANCYency;
     ALRT::Type alert;
     UplinkLateralOffsets(const std::string &mesg);
     ~UplinkLateralOffsets();
