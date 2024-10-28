@@ -18,11 +18,11 @@ public:
     std::string messageType; // UM or DM
    
 
-    struct URGANCY {
+    struct URGENCY {
         enum Type {
             Low = 4,
             Normal = 3,
-            URGANCYent = 2,
+            Urgent = 2,
             Distress = 1
         };
     };
@@ -52,7 +52,7 @@ public:
         int min,
         int mrn,
         std::string message,
-        std::string URGANCY,
+        std::string URGENCY,
         std::string ALRT,
         bool responseRequired
     );

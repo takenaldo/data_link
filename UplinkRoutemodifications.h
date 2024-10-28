@@ -8,7 +8,7 @@ class UplinkRoutemodifications : public DataLinkMessage
 {
 public:
     std::string MessageElement;
-    URGANCY::Type URGANCYency;
+    URGENCY::Type URGENCYency;
     ALRT::Type alert;
     UplinkRoutemodifications(const std::string &mesg);
     ~UplinkRoutemodifications();

@@ -2,7 +2,7 @@
 #include <vector>
 #include "UplinkConfirmationRequests.h"
 UplinkConfirmationRequests::UplinkConfirmationRequests(const std::string& mesg) {
-    URGANCY= URGANCY::Normal;
+    URGENCY= URGENCY::Normal;
     alert = ALRT::LowAlert;
     MessageElement = mesg;
     assignID();
@@ -12,13 +12,13 @@ UplinkConfirmationRequests::~UplinkConfirmationRequests() {}
 
 void UplinkConfirmationRequests::displayComfirmationDetails() {
     std::cout << "Message: " << MessageElement << std::endl;
-    std::cout << "URGANCYLevel: " << URGANCY<< std::endl;
+    std::cout << "URGENCYLevel: " << URGENCY<< std::endl;
     std::cout << "Alert Level: " << alert << std::endl;
 }
 
 std::string UplinkConfirmationRequests::toString() {
     return "ID: " + std::to_string(id) + ", Message: " + MessageElement +
-           ", URGANCYency: " + std::to_string(URGANCYency) + ", Alert: " + std::to_string(alert);
+           ", URGENCYency: " + std::to_string(URGENCYency) + ", Alert: " + std::to_string(alert);
 }
 
 void UplinkConfirmationRequests::assignID() {

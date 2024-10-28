@@ -62,7 +62,7 @@ DataLinkMessage::DataLinkMessage(
         int min,
         int mrn,
         std::string message,
-        std::string URGANCY,
+        std::string URGENCY,
         std::string ALRT,
         bool responseRequired
 ){

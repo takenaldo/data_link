@@ -8,7 +8,7 @@ class UplinkNegotiationRequests : public DataLinkMessage
 {
 public:
     std::string MessageElement;
-    URGANCY::Type URGANCYency;
+    URGENCY::Type URGENCYency;
     ALRT::Type alert;
     UplinkNegotiationRequests(const std::string &mesg);
     ~UplinkNegotiationRequests();

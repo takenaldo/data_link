@@ -8,7 +8,7 @@ class UplinkConfirmationRequests : public DataLinkMessage
 {
 public:
     std::string MessageElement;
-    URGANCY::Type URGANCYency;
+    URGENCY::Type URGENCYency;
     ALRT::Type alert;
     UplinkConfirmationRequests(const std::string &mesg);
     ~UplinkConfirmationRequests();

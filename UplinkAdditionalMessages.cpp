@@ -2,7 +2,7 @@
 #include <vector>
 #include "UplinkAdditionalMessages.h"
 UplinkAdditionalMessages::UplinkAdditionalMessages(const std::string& mesg) {
-    URGANCY= URGANCY::Low;
+    URGENCY= URGENCY::Low;
     alert = ALRT::NoAlertingRequired;
     MessageElement = mesg;
     assignID();
@@ -12,13 +12,13 @@ UplinkAdditionalMessages::~UplinkAdditionalMessages() {}
 
 void UplinkAdditionalMessages::displayAdditionalDetails() {
     std::cout << "Message: " << MessageElement << std::endl;
-    std::cout << "URGANCYLevel: " << URGANCY<< std::endl;
+    std::cout << "URGENCYLevel: " << URGENCY<< std::endl;
     std::cout << "Alert Level: " << alert << std::endl;
 }
 
 std::string UplinkAdditionalMessages::toString() {
     return "ID: " + std::to_string(id) + ", Message: " + MessageElement +
-           ", URGANCYency: " + std::to_string(URGANCYency) + ", Alert: " + std::to_string(alert);
+           ", URGENCYency: " + std::to_string(URGENCYency) + ", Alert: " + std::to_string(alert);
 }
 
 void UplinkAdditionalMessages::assignID() {
