@@ -63,7 +63,7 @@ DataLinkMessage::DataLinkMessage(
         int mrn,
         std::string message,
         std::string URGENCY,
-        std::string ALRT,
+        std::string ALERT,
         bool responseRequired
 ){
     this->messageType = messageType;

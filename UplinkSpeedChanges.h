@@ -8,8 +8,8 @@ class UplinkSpeedChanges : public DataLinkMessage
 {
 public:
     std::string MessageElement;
-    URGENCY::Type URGENCYency;
-    ALRT::Type alert;
+    URGENCY::Type urgent;
+    ALERT::Type alert;
     UplinkSpeedChanges(const std::string &mesg);
     ~UplinkSpeedChanges();
 

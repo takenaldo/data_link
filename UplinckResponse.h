@@ -8,8 +8,8 @@ class UplinkResponse : public DataLinkMessage
 {
 public:
     std::string MessageElement;
-    URGENCY::Type URGENCYency;
-    ALRT::Type alert;
+    URGENCY::Type urgent;
+    ALERT::Type alert;
     UplinkResponse(const std::string &mesg);
     ~UplinkResponse();
 

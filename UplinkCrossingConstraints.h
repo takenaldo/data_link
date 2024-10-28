@@ -8,8 +8,8 @@ class UplinkCrossingConstraints : public DataLinkMessage
 {
 public:
     std::string MessageElement;
-    URGENCY::Type URGENCYency;
-    ALRT::Type alert;
+    URGENCY::Type urgent;
+    ALERT::Type alert;
     UplinkCrossingConstraints(const std::string &mesg);
     ~UplinkCrossingConstraints();
 

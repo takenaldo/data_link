@@ -8,8 +8,8 @@ class UplinkAdditionalMessages : public DataLinkMessage
 {
 public:
     std::string MessageElement;
-    URGENCY::Type URGENCYency;
-    ALRT::Type alert;
+    URGENCY::Type urgent;
+    ALERT::Type alert;
     UplinkAdditionalMessages(const std::string &mesg);
     ~UplinkAdditionalMessages();
 

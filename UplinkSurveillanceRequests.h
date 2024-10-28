@@ -8,8 +8,8 @@ class UplinkSurveillanceRequests : public DataLinkMessage
 {
 public:
     std::string MessageElement;
-    URGENCY::Type URGENCYency;
-    ALRT::Type alert;
+    URGENCY::Type urgent;
+    ALERT::Type alert;
     UplinkSurveillanceRequests(const std::string &mesg);
     ~UplinkSurveillanceRequests();
 

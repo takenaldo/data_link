@@ -8,8 +8,8 @@ class UplinkVerticalClearances : public DataLinkMessage
 {
 public:
     std::string MessageElement;
-    URGENCY::Type URGENCYency;
-    ALRT::Type alert;
+    URGENCY::Type urgent;
+    ALERT::Type alert;
     UplinkVerticalClearances(const std::string &mesg);
     ~UplinkVerticalClearances();
 

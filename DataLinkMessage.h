@@ -27,7 +27,7 @@ public:
         };
     };
 
-    struct ALRT {
+    struct ALERT {
         enum Type {
             NoAlertingRequired = 4,
             LowAlert = 3,
@@ -53,7 +53,7 @@ public:
         int mrn,
         std::string message,
         std::string URGENCY,
-        std::string ALRT,
+        std::string ALERT,
         bool responseRequired
     );
 
