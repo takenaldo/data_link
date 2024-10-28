@@ -2,7 +2,7 @@
 #include <vector>
 #include "UplinkAdditionalMessages.h"
 UplinkAdditionalMessages::UplinkAdditionalMessages(const std::string& mesg) {
-    URGANCYency = URGANCY::Low;
+    URGANCY= URGANCY::Low;
     alert = ALRT::NoAlertingRequired;
     MessageElement = mesg;
     assignID();
@@ -12,7 +12,7 @@ UplinkAdditionalMessages::~UplinkAdditionalMessages() {}
 
 void UplinkAdditionalMessages::displayAdditionalDetails() {
     std::cout << "Message: " << MessageElement << std::endl;
-    std::cout << "URGANCYency Level: " << URGANCYency << std::endl;
+    std::cout << "URGANCYLevel: " << URGANCY<< std::endl;
     std::cout << "Alert Level: " << alert << std::endl;
 }
 

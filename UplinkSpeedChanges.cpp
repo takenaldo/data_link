@@ -2,7 +2,7 @@
 #include <vector>
 #include "UplinkSpeedChanges.h"
 UplinkSpeedChanges::UplinkSpeedChanges(const std::string& mesg) {
-    URGANCYency = URGANCY::Low;
+    URGANCY= URGANCY::Low;
     alert = ALRT::LowAlert;
     MessageElement = mesg;
     assignID();
@@ -12,7 +12,7 @@ UplinkSpeedChanges::~UplinkSpeedChanges() {}
 
 void UplinkSpeedChanges::displaySpeedDetails() {
     std::cout << "Message: " << MessageElement << std::endl;
-    std::cout << "URGANCYency Level: " << URGANCYency << std::endl;
+    std::cout << "URGANCYLevel: " << URGANCY<< std::endl;
     std::cout << "Alert Level: " << alert << std::endl;
 }
 

@@ -2,7 +2,7 @@
 #include <vector>
 #include "UplinkRoutemodifications.h"
 UplinkRoutemodifications::UplinkRoutemodifications(const std::string& mesg) {
-    URGANCYency = URGANCY::Normal;
+    URGANCY= URGANCY::Normal;
     alert = ALRT::MediumAlert;
     MessageElement = mesg;
     assignID();
@@ -12,7 +12,7 @@ UplinkRoutemodifications::~UplinkRoutemodifications() {}
 
 void UplinkRoutemodifications::displayRouteDetails() {
     std::cout << "Message: " << MessageElement << std::endl;
-    std::cout << "URGANCYency Level: " << URGANCYency << std::endl;
+    std::cout << "URGANCYLevel: " << URGANCY<< std::endl;
     std::cout << "Alert Level: " << alert << std::endl;
 }
 

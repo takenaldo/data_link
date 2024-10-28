@@ -2,7 +2,7 @@
 #include <vector>
 #include "UplinkNegotiationRequests.h"
 UplinkNegotiationRequests::UplinkNegotiationRequests(const std::string& mesg) {
-    URGANCYency = URGANCY::Normal;
+    URGANCY= URGANCY::Normal;
     alert = ALRT::LowAlert;
     MessageElement = mesg;
     assignID();
@@ -12,7 +12,7 @@ UplinkNegotiationRequests::~UplinkNegotiationRequests() {}
 
 void UplinkNegotiationRequests::displayNegotiationDetails() {
     std::cout << "Message: " << MessageElement << std::endl;
-    std::cout << "URGANCYency Level: " << URGANCYency << std::endl;
+    std::cout << "URGANCYLevel: " << URGANCY<< std::endl;
     std::cout << "Alert Level: " << alert << std::endl;
 }
 

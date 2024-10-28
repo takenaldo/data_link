@@ -2,7 +2,7 @@
 #include <vector>
 #include "UplinkSurveillanceRequests.h"
 UplinkSurveillanceRequests::UplinkSurveillanceRequests(const std::string& mesg) {
-    URGANCYency = URGANCY::Normal;
+    URGANCY= URGANCY::Normal;
     alert = ALRT::MediumAlert;
     MessageElement = mesg;
     assignID();
@@ -12,7 +12,7 @@ UplinkSurveillanceRequests::~UplinkSurveillanceRequests() {}
 
 void UplinkSurveillanceRequests::displaySurcillanceDetails() {
     std::cout << "Message: " << MessageElement << std::endl;
-    std::cout << "URGANCYency Level: " << URGANCYency << std::endl;
+    std::cout << "URGANCYLevel: " << URGANCY<< std::endl;
     std::cout << "Alert Level: " << alert << std::endl;
 }
 

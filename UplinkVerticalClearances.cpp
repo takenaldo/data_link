@@ -2,7 +2,7 @@
 #include <vector>
 #include "UplinkVerticalClearances.h"
 UplinkVerticalClearances::UplinkVerticalClearances(const std::string& mesg) {
-    URGANCYency = URGANCY::Low;
+    URGANCY= URGANCY::Low;
     alert = ALRT::LowAlert;
     MessageElement = mesg;
     assignID();
@@ -12,7 +12,7 @@ UplinkVerticalClearances::~UplinkVerticalClearances() {}
 
 void UplinkVerticalClearances::displayClearanceDetails() {
     std::cout << "Message: " << MessageElement << std::endl;
-    std::cout << "URGANCYency Level: " << URGANCYency << std::endl;
+    std::cout << "URGANCYLevel: " << URGANCY<< std::endl;
     std::cout << "Alert Level: " << alert << std::endl;
 }
 

@@ -2,7 +2,7 @@
 #include <vector>
 #include "UplinkSystemManagementMessages.h"
 UplinkSystemManagementMessages::UplinkSystemManagementMessages(const std::string& mesg) {
-    URGANCYency = URGANCY::URGANCYent;
+    URGANCY= URGANCY::URGANCYent;
     alert = ALRT::MediumAlert;
     MessageElement = mesg;
     assignID();
@@ -12,7 +12,7 @@ UplinkSystemManagementMessages::~UplinkSystemManagementMessages() {}
 
 void UplinkSystemManagementMessages::displayManagementDetails() {
     std::cout << "Message: " << MessageElement << std::endl;
-    std::cout << "URGANCYency Level: " << URGANCYency << std::endl;
+    std::cout << "URGANCYLevel: " << URGANCY<< std::endl;
     std::cout << "Alert Level: " << alert << std::endl;
 }
 
