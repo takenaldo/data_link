@@ -24,7 +24,7 @@ protected:
     MessageIntentUse intent;
     MessageElement element;
     std::string urgency;
-    std::string alert;
+    std::string alert;z
     std::string response;
 
 public:
