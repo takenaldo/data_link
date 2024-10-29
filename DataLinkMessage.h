@@ -16,9 +16,9 @@ public:
     std::string message; // actual message
 
     std::string messageType; // UM or DM
-    std::string URG;
-    std::string ALRT;
-
+    std::string Urgent;
+    std::string Alert;
+    std::string response;
     bool responseRequired;
 
     static const int DM_LOGON_REQUEST = 99;
