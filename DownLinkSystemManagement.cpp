@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "DownLink.h"  // Ensure this header defines MessageElement
+#include "DownLink.h"  
 
 enum class MessageIntentUse {
     Error,
@@ -51,7 +51,6 @@ private:
     }
 };
 
-// Downlink Message Class (Inherits from DownLinkSystemManagement)
 class DownlinkMessage : public DownLinkSystemManagement {
 public:
     DownlinkMessage(MessageIntentUse intent, MessageElement element)
@@ -62,7 +61,6 @@ public:
     }
 };
 
-// Function to choose Message Intent
 MessageIntentUse chooseIntent() {
     int choice;
     std::cout << "Choose Message Intent:\n"
@@ -80,7 +78,6 @@ MessageIntentUse chooseIntent() {
     }
 }
 
-// Function to choose Message Element
 MessageElement chooseElement() {
     int choice;
     std::cout << "Choose Message Element:\n"
@@ -99,7 +96,6 @@ MessageElement chooseElement() {
     }
 }
 
-// Function to set flags for Downlink Message
 void setDownlinkFlags(DownlinkMessage& message) {
     std::string urg, alrt, resp;
     std::cout << "Enter URG flag (e.g., N, M): ";

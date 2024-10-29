@@ -2,36 +2,29 @@
 #include <string>
 #include "DownLink.h"
 
-// Enum to represent message intent types
 enum class MessageIntentUse {
     RequestSpeed,
     RequestSpeedToSpeed
 };
 
-// Class representing downlink speed requests
 class DownLinkSpeedRequests {
 protected:
-    MessageIntentUse intent; // Message intent
-    MessageElement element;   // Message element
-    std::string urgency;      // Urgency flag
-    std::string alert;        // Alert flag
-    std::string response;     // Response flag
+    MessageIntentUse intent; 
+    MessageElement element;  
+    std::string urgency;      
+    std::string response;     
 
 public:
-    // Constructor to initialize intent and element
     DownLinkSpeedRequests(MessageIntentUse intent, MessageElement element)
         : intent(intent), element(element) {}
 
-    // Method to get message information
     virtual std::string getInfo() const {
         return "Intent: " + getIntentName() + ", Element: " + getElementName() +
                ", Urgency: " + urgency + ", Alert: " + alert + ", Response: " + response;
     }
 
-    // Pure virtual method for processing the message
     virtual std::string processMessage() const = 0;
 
-    // Method to set flags based on chosen parameters
     void setFlags(const std::string& urg, const std::string& alrt, const std::string& resp) {
         urgency = urg;
         alert = alrt;
@@ -39,7 +32,6 @@ public:
     }
 
 private:
-    // Convert intent enum to string
     std::string getIntentName() const {
         switch (intent) {
             case MessageIntentUse::RequestSpeed: 
@@ -51,7 +43,6 @@ private:
         }
     }
 
-    // Convert element enum to string
     std::string getElementName() const {
         switch (element) {
             case MessageElement::URG: 
@@ -66,7 +57,6 @@ private:
     }
 };
 
-// Class representing a downlink message (inherits from DownLinkSpeedRequests)
 class DownlinkMessage : public DownLinkSpeedRequests {
 public:
     DownlinkMessage(MessageIntentUse intent, MessageElement element)
@@ -77,7 +67,6 @@ public:
     }
 };
 
-// Function to choose message intent from user input
 MessageIntentUse chooseIntent() {
     int choice;
     std::cout << "Choose Message Intent:\n"
@@ -97,7 +86,6 @@ MessageIntentUse chooseIntent() {
     }
 }
 
-// Function to choose message element from user input
 MessageElement chooseElement() {
     int choice;
     std::cout << "Choose Message Element:\n"
@@ -120,7 +108,6 @@ MessageElement chooseElement() {
     }
 }
 
-// Function to set flags for the downlink message
 void setDownlinkFlags(DownlinkMessage& message) {
     std::string urg, alrt, resp;
     std::cout << "Enter URG flag (e.g., N, M): ";

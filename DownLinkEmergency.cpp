@@ -36,7 +36,6 @@ public:
     }
 
 private:
-    // Convert intent enum to string
     std::string getIntentName() const {
         switch (intent) {
             case MessageIntentUse:: PAN: return " PAN";
@@ -45,7 +44,6 @@ private:
         }
     }
 
-    // Convert element enum to string
     std::string getElementName() const {
         switch (element) {
             case MessageElement::URG: return "URG";
@@ -56,7 +54,6 @@ private:
     }
 };
 
-// Downlink Message Class (Inherits from Message)
 class DownlinkMessage : public DownLinkEmergency {
 public:
     DownlinkMessage(MessageIntentUse intent, MessageElement element)
@@ -67,7 +64,6 @@ public:
     }
 };
 
-// Function to choose Message Intent
 MessageIntentUse chooseIntent() {
     int choice;
     std::cout << "Choose Message Intent:\n"
@@ -86,7 +82,6 @@ MessageIntentUse chooseIntent() {
     }
 }
 
-// Function to choose Message Element
 MessageElement chooseElement() {
     int choice;
     std::cout << "Choose Message Element:\n"
@@ -105,7 +100,6 @@ MessageElement chooseElement() {
     }
 }
 
-// Function to set flags (N, M, L, etc.) for Downlink Message
 void setDownlinkFlags(DownlinkMessage& message) {
     std::string urg, alrt, resp;
     std::cout << "Enter URG flag (e.g., U ,D): ";

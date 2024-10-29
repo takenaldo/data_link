@@ -26,7 +26,6 @@ public:
 
     virtual std::string processMessage() const = 0;
 
-    // Set the flags (urgency, alert, response) based on chosen parameters
     void setFlags(const std::string& urg, const std::string& alrt, const std::string& resp) {
         urgency = urg;
         alert = alrt;
@@ -34,7 +33,6 @@ public:
     }
 
 private:
-    // Convert intent enum to string
     std::string getIntentName() const {
         switch (intent) {
             case MessageIntentUse::WhenSpeed: return "WhenSpeed";
@@ -43,7 +41,6 @@ private:
         }
     }
 
-    // Convert element enum to string
     std::string getElementName() const {
         switch (element) {
             case MessageElement::URG: return "URG";
@@ -54,7 +51,6 @@ private:
     }
 };
 
-// Downlink Message Class (Inherits from DownLinkNegotiationRequests)
 class DownlinkMessage : public DownLinkNegotiationRequests {
 public:
     DownlinkMessage(MessageIntentUse intent, MessageElement element)
@@ -65,7 +61,6 @@ public:
     }
 };
 
-// Function to choose Message Intent
 MessageIntentUse chooseIntent() {
     int choice;
     std::cout << "Choose Message Intent:\n"
@@ -82,7 +77,6 @@ MessageIntentUse chooseIntent() {
     }
 }
 
-// Function to choose Message Element
 MessageElement chooseElement() {
     int choice;
     std::cout << "Choose Message Element:\n"
@@ -101,7 +95,6 @@ MessageElement chooseElement() {
     }
 }
 
-// Function to set flags (N, M, L, etc.) for Downlink Message
 void setDownlinkFlags(DownlinkMessage& message) {
     std::string urg, alrt, resp;
     std::cout << "Enter URG flag (e.g., N, M): ";

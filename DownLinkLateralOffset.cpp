@@ -2,17 +2,15 @@
 #include <string>
 #include "DownLink.h"
 
-// Enum for message intent
 enum class MessageIntentUse {
     RouteOffsetRequest,
     RouteOffsetAtRequest
 };
 
-// DownLinkLateralOffset base class
 class DownLinkLateralOffset {
 protected:
     MessageIntentUse intent;
-    MessageElement element;  // Assuming MessageElement is defined in "DownLink.h"
+    MessageElement element; 
     std::string urgency;
     std::string alert;
     std::string response;
@@ -28,7 +26,6 @@ public:
 
     virtual std::string processMessage() const = 0;
 
-    // Set flags
     void setFlags(const std::string& urg, const std::string& alrt, const std::string& resp) {
         urgency = urg;
         alert = alrt;
@@ -36,7 +33,6 @@ public:
     }
 
 private:
-    // Convert intent enum to string
     std::string getIntentName() const {
         switch (intent) {
             case MessageIntentUse::RouteOffsetRequest: return "Route Offset Request";
@@ -45,7 +41,6 @@ private:
         }
     }
 
-    // Convert element enum to string
     std::string getElementName() const {
         switch (element) {
             case MessageElement::URG: return "URG";
@@ -56,7 +51,6 @@ private:
     }
 };
 
-// DownlinkMessage class inheriting from DownLinkLateralOffset
 class DownlinkMessage : public DownLinkLateralOffset {
 public:
     DownlinkMessage(MessageIntentUse intent, MessageElement element)
@@ -67,7 +61,6 @@ public:
     }
 };
 
-// Function to choose Message Intent
 MessageIntentUse chooseIntent() {
     int choice;
     std::cout << "Choose Message Intent:\n"
@@ -84,7 +77,6 @@ MessageIntentUse chooseIntent() {
     }
 }
 
-// Function to choose Message Element
 MessageElement chooseElement() {
     int choice;
     std::cout << "Choose Message Element:\n"
@@ -103,7 +95,6 @@ MessageElement chooseElement() {
     }
 }
 
-// Function to set flags (N, M, L, etc.) for Downlink Message
 void setDownlinkFlags(DownlinkMessage& message) {
     std::string urg, alrt, resp;
     std::cout << "Enter URG flag (e.g., N, M): ";

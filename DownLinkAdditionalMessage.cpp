@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
-#include "DownLink.h" // Ensure MessageElement is defined in this header
-
+#include "DownLink.h" 
 enum class MessageIntentUse {
     DueToWeather,
     DueToAircraft
@@ -10,7 +9,7 @@ enum class MessageIntentUse {
 class DownLinkAdditionalMessage {
 protected:
     MessageIntentUse intent;
-    MessageElement element; // Make sure MessageElement is defined
+    MessageElement element;
     std::string urgency;
     std::string alert;
     std::string response;
@@ -26,15 +25,13 @@ public:
 
     virtual std::string processMessage() const = 0;
 
-    // Set the flags (urgency, alert, response) based on chosen parameters
     void setFlags(const std::string& urg, const std::string& alrt, const std::string& resp) {
-        urgency = urg; // Fix the variable name here
+        urgency = urg; 
         alert = alrt;
         response = resp;
     }
 
 private:
-    // Convert intent enum to string
     std::string getIntentName() const {
         switch (intent) {
             case MessageIntentUse::DueToWeather: return "DueToWeather";
@@ -43,7 +40,6 @@ private:
         }
     }
 
-    // Convert element enum to string
     std::string getElementName() const {
         switch (element) {
             case MessageElement::URG: return "URG";
@@ -54,7 +50,6 @@ private:
     }
 };
 
-// Downlink Message Class (Inherits from DownLinkAdditionalMessage)
 class DownlinkMessage : public DownLinkAdditionalMessage {
 public:
     DownlinkMessage(MessageIntentUse intent, MessageElement element)
@@ -65,7 +60,6 @@ public:
     }
 };
 
-// Function to choose Message Intent
 MessageIntentUse chooseIntent() {
     int choice;
     std::cout << "Choose Message Intent:\n"
@@ -83,7 +77,6 @@ MessageIntentUse chooseIntent() {
     }
 }
 
-// Function to choose Message Element
 MessageElement chooseElement() {
     int choice;
     std::cout << "Choose Message Element:\n"
@@ -102,7 +95,6 @@ MessageElement chooseElement() {
     }
 }
 
-// Function to set flags (N, M, L, etc.) for Downlink Message
 void setDownlinkFlags(DownlinkMessage& message) {
     std::string urg, alrt, resp;
     std::cout << "Enter URG flag (e.g., N, M): ";
@@ -115,5 +107,4 @@ void setDownlinkFlags(DownlinkMessage& message) {
     message.setFlags(urg, alrt, resp);
 }
 
-// Main function to run the program
 
