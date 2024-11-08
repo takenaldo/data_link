@@ -10,9 +10,10 @@
 #include "../DownLinkMessage.h"
 #include "PermittedResponseGroup.cpp"
 
-namespace dm::vertical_request{
+namespace dm::vertical_request
+{
 
-class RequestLevel: DownLinkMessage {
+class RequestLevel: public DownLinkMessage {
 
 private:
     int m_level;
@@ -23,8 +24,12 @@ private:
 public:
 
     RequestLevel(int lvl): m_level(lvl),
-        DownLinkMessage(6, Alert::LOW_ALERT, Urgency::NORMAL, dm::MessageGroup::VERTICAL_REQUEST, 
-        PermittedResponseGroup(1, {}, true)
+        DownLinkMessage(
+            6, 
+            Alert::LOW_ALERT,
+             Urgency::NORMAL, 
+             dm::MessageGroup::VERTICAL_REQUEST, 
+             PermittedResponseGroup(1, {}, true)
         )
     {
         setMessage(buildMessage(m_initializePhrases()));

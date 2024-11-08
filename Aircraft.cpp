@@ -138,10 +138,6 @@ void Aircraft::startReceiving() {
 }
 
 
-
-
-
-
 int main(){
 
     Aircraft aircraft{"ET-AUE", "N704YA", "A0B1C2","HAAB", "HASC"};
@@ -150,11 +146,9 @@ int main(){
 
     dm::response::Roger roger;
 
-    dm::vertical_request::RequestLevel requestLevel{180};
+    dm::vertical_request::RequestLevel requestlevel{180};
 
-
-    aircraft.send(requestLevel);
-
+    aircraft.send(requestlevel);
 
     return 0;
 }
