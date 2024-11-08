@@ -4,6 +4,10 @@
 #include "LogonRequest.h"
 #include "ConnectionResponse.h"
 
+#include "DownLinkMessages/Roger.cpp"
+#include "DownLinkMessages/RequestLevel.cpp"
+
+
 
 Aircraft::Aircraft(){
     zmq::context_t sender_ctx;
@@ -32,9 +36,8 @@ Aircraft::Aircraft (
 
 void Aircraft::send(std::string message){
 
-    DataLinkMessage dataLinkMessage {message};
+    // DataLinkMessage dataLinkMessage {message};
     // TODO: dataLinkMessage valid
-
 
     zmq::context_t sender_ctx;
     zmq::socket_t sender_socket;
@@ -64,11 +67,12 @@ void Aircraft::startReceiving() {
 
     // while (true) {
         try {
-         zmq::context_t receiver_ctx(1);
-         zmq::socket_t receiver_socket;    
-         AircraftReceiver receiver{receiver_ip,  receiver_ctx, zmq::socket_type::pull};
-        std::string receivedMessage = receiver.recieve();
-        std::cout<<"Received Message: "<<receivedMessage<<"\n\n";
+
+            zmq::context_t receiver_ctx(1);
+            zmq::socket_t receiver_socket;    
+            AircraftReceiver receiver{receiver_ip,  receiver_ctx, zmq::socket_type::pull};
+            std::string receivedMessage = receiver.recieve();
+            std::cout<<"Received Message: "<<receivedMessage<<"\n\n";
         
 
             // zmq::socket_t receiver_socket;
@@ -94,7 +98,6 @@ void Aircraft::startReceiving() {
 
 
     void Aircraft::startResponse(){
-    std::cout<<receiver_ip<<std::endl;
 
     try{
         zmq::context_t ctx(1);
@@ -102,30 +105,30 @@ void Aircraft::startReceiving() {
         std::string received_message = receiver.recieve();
         std::cout<<"Connected ======== "<<received_message<<"\n\n\n";
 
-        DataLinkMessage datalinkMessage{received_message};
-         std::cout << "Received Message ID: " << datalinkMessage.id << std::endl;
-        std::cout << "Expected DM_CONNECTION_RESPONSE ID: " << DataLinkMessage::DM_CONNECTION_RESPONSE << std::endl;
+        // DataLinkMessage datalinkMessage{received_message};
+        //  std::cout << "Received Message ID: " << datalinkMessage.m_id << std::endl;
+        // std::cout << "Expected DM_CONNECTION_RESPONSE ID: " << DataLinkMessage::DM_CONNECTION_RESPONSE << std::endl;
 
-        if (datalinkMessage.id == DataLinkMessage::DM_CONNECTION_RESPONSE){
-            std::cout << "\n\nCONNECTION REQUEST RECEIVED\n";
-             std::cout << "Connection Status : " << datalinkMessage.message << std::endl;
+        // if (datalinkMessage.m_id == DataLinkMessage::DM_CONNECTION_RESPONSE){
+        //     std::cout << "\n\nCONNECTION REQUEST RECEIVED\n";
+        //      std::cout << "Connection Status : " << datalinkMessage.message << std::endl;
 
-                if (datalinkMessage.message == "ACCEPTED") {
-                    std::cout << "Connection has been accepted." << std::endl;
+        //         if (datalinkMessage.message == "ACCEPTED") {
+        //             std::cout << "Connection has been accepted." << std::endl;
                     
-                }
-                else if (datalinkMessage.message == "REJECTED") {
-                    std::cout << "Connection has been rejected." << std::endl;
+        //         }
+        //         else if (datalinkMessage.message == "REJECTED") {
+        //             std::cout << "Connection has been rejected." << std::endl;
                  
-                }
-                else {
-                    std::cout << "Unknown connection status received." << std::endl;
-                }
+        //         }
+        //         else {
+        //             std::cout << "Unknown connection status received." << std::endl;
+        //         }
 
 
-        } else {
-            std::cout << "Received message ID does not match DM_CONNECTION_RESPONSE.\n";
-        }
+        // } else {
+        //     std::cout << "Received message ID does not match DM_CONNECTION_RESPONSE.\n";
+        // }
 
     }
        
@@ -145,38 +148,13 @@ int main(){
 
     std::cout<<"Start Sending ..."<<std::endl; 
 
+    dm::response::Roger roger;
 
-    int input  = 0;
+    dm::vertical_request::RequestLevel requestLevel{180};
 
-    std::cout<<"Choose What To Do:\n";
-    std::cout<<"(1). Send DownLink Messages\n";
-    std::cout<<"(2). Start Receiving Uplink Messages\n\n";
 
-    std::cin>>input;
-    LogonRequest logonRequest = {
-        99, "HIAB", "ET-AUE", "A0B1C2", "HAAB", "HASC"
-    };
+    aircraft.send(requestLevel);
 
-    switch (input)
-    {
-        case 1:
-            std::cout<<"\n\nSending Logon Request to Tower...\n\n";
-            aircraft.send(logonRequest.toString());
-             if (logonRequest.responseRequired)
-            {
-                aircraft.startReceiving();
-                
-               // aircraft.start_Response();
-            }
-            
-            break;
-        
-        case 2:
-            break;
-
-    }
-
-     aircraft.startResponse();
 
     return 0;
 }

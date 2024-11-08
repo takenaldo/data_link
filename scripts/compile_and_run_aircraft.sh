@@ -1,4 +1,12 @@
-g++ Aircraft.cpp MockDownlinkSender.cpp MockUplinkReceiver.cpp ConnectionResponse.cpp AircraftReceiver.cpp DataLinkMessage.cpp LogonRequest.cpp -lzmq -o ./build/Aircraft.exe
+g++ Aircraft.cpp MockDownlinkSender.cpp MockUplinkReceiver.cpp ConnectionResponse.cpp AircraftReceiver.cpp \
+DataLinkMessage.cpp  \
+./DownLinkMessages/RequestLevel.cpp \
+./DownLinkMessage.h \
+./DownLinkMessages/PermittedResponseGroup.cpp \
+-lzmq -o ./build/Aircraft.exe
+
+
+
 echo "=================================="
 echo "'Aircraft.exe' Built Successfully"
 echo "=================================="
