@@ -9,7 +9,7 @@ Tower::Tower(){}
 
 void Tower::send(std::string message){
 
-    DataLinkMessage dataLinkMessage {message};
+    // DataLinkMessage dataLinkMessage {message};
     // TODO: dataLinkMessage valid
     zmq::context_t sender_ctx;
     zmq::socket_t sender_socket;
@@ -39,44 +39,47 @@ void Tower::startReceiving(){
         std::string received_message = receiver.recieve();
         std::cout<<"Received Message: "<<received_message<<"\n\n\n";
 
-        DataLinkMessage datalinkMessage{received_message};
 
-        if (datalinkMessage.id == DataLinkMessage::DM_LOGON_REQUEST){
-            std::cout<<"\n\nLOGON REQUEST RECEIVED\n";
-             int choice = 0 ;
-             std::cout << "Choose Response to Send:\n";
-                std::cout << "(1). Accepted\n";
-                std::cout << "(2). Rejected\n";
-                // std::cout << "(3). Other\n";
-                std::cout << "Enter your choice: ";
+        return;
+
+        // DataLinkMessage datalinkMessage{received_message};
+
+        // if (datalinkMessage.m_id == DataLinkMessage::DM_LOGON_REQUEST){
+        //     std::cout<<"\n\nLOGON REQUEST RECEIVED\n";
+        //      int choice = 0 ;
+        //      std::cout << "Choose Response to Send:\n";
+        //         std::cout << "(1). Accepted\n";
+        //         std::cout << "(2). Rejected\n";
+        //         // std::cout << "(3). Other\n";
+        //         std::cout << "Enter your choice: ";
            
-                std::cin >> choice;
+        //         std::cin >> choice;
 
-                LogonResponse logonResponse("Communication Stablished"); // Default response
+        //         LogonResponse logonResponse("Communication Stablished"); // Default response
 
-               switch (choice) {
-                    case 1:
-                        logonResponse.response = "accepted";
-                        break;
-                    case 2:
-                        logonResponse.response = "rejected";
-                        std::cout << "Enter failure reason: ";
-                        std::cin.ignore(); // Clear the input buffer
-                        break;
-                    default:
-                        std::cout << "Invalid choice. Defaulting to 'accepted'." << std::endl;
-                        logonResponse.response = "On process";
-                        break;
-                    }
-             std::cout << "Sending Response: " << logonResponse.response << std::endl;
+        //        switch (choice) {
+        //             case 1:
+        //                 logonResponse.response = "accepted";
+        //                 break;
+        //             case 2:
+        //                 logonResponse.response = "rejected";
+        //                 std::cout << "Enter failure reason: ";
+        //                 std::cin.ignore(); // Clear the input buffer
+        //                 break;
+        //             default:
+        //                 std::cout << "Invalid choice. Defaulting to 'accepted'." << std::endl;
+        //                 logonResponse.response = "On process";
+        //                 break;
+        //             }
+        //      std::cout << "Sending Response: " << logonResponse.response << std::endl;
 
-            // Serialize and send the response
-            std::string responseStr = logonResponse.toString();
-            send(responseStr);
+        //     // Serialize and send the response
+        //     std::string responseStr = logonResponse.toString();
+        //     send(responseStr);
 
-            std::cout << "Response Sent Successfully.\n";
+        //     std::cout << "Response Sent Successfully.\n";
 
-        }
+        // }
 
     }
      catch (const std::invalid_argument& e) {
@@ -92,40 +95,40 @@ int main(){
     std::cout<<"Start Receiving ..."<<std::endl; 
     tower.startReceiving();
 
-    /// ...............connection request 
-     int input  = 0;
+    // /// ...............connection request 
+    //  int input  = 0;
 
-    std::cout<<"Connection request :\n";
-    std::cout<<"(1). yes\n";
-    std::cout<<"(2). No\n\n";
+    // std::cout<<"Connection request :\n";
+    // std::cout<<"(1). yes\n";
+    // std::cout<<"(2). No\n\n";
 
-    std::cin>>input;
-    ConnectionRequest connectionRequest = {
-        99, "HIAB"
-    };
+    // std::cin>>input;
+    // ConnectionRequest connectionRequest = {
+    //     99, "HIAB"
+    // };
 
-    switch (input)
-    {
-        case 1:
+    // switch (input)
+    // {
+    //     case 1:
            
-            std::cout<<"\n\nSending Connection Request to Aircraft ...\n\n";
-           connectionRequest.message = "ACCEPTED\n";
-            tower.send(connectionRequest.toString());
-             if (connectionRequest.responseRequired)
-            {
-                std::cout<<"Connected successfuly\n ";
-            }
+    //         std::cout<<"\n\nSending Connection Request to Aircraft ...\n\n";
+    //        connectionRequest.message = "ACCEPTED\n";
+    //         tower.send(connectionRequest.toString());
+    //          if (connectionRequest.responseRequired)
+    //         {
+    //             std::cout<<"Connected successfuly\n ";
+    //         }
             
-            break;
+    //         break;
         
-        case 2:
-              connectionRequest.message = "REJECTED";
-            tower.send(connectionRequest.toString());
+    //     case 2:
+    //           connectionRequest.message = "REJECTED";
+    //         tower.send(connectionRequest.toString());
 
-            std::cout << "Connection rejected.\n" << std::endl;
-            break;
+    //         std::cout << "Connection rejected.\n" << std::endl;
+    //         break;
 
-    }
+    // }
 
     return 0;
 }
