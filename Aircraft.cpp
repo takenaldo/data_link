@@ -6,8 +6,11 @@
 
 #include "DownLinkMessages/Roger.cpp"
 #include "DownLinkMessages/RequestLevel.cpp"
-
-
+#include "DownLinkMessages/RequestBlockLevel.cpp"
+#include "DownLinkMessages/RequestCruiseLevel.cpp"
+#include "DownLinkMessages/RequestClimbLevel.cpp"
+#include "DownLinkMessages/RequestDescentLevel.cpp"
+#include "DownLinkMessages/RequestLevelAtPosition.cpp"
 
 Aircraft::Aircraft(){
     zmq::context_t sender_ctx;
@@ -147,8 +150,13 @@ int main(){
     dm::response::Roger roger;
 
     dm::vertical_request::RequestLevel requestlevel{180};
+    dm::vertical_request::RequestBlockLevel requestblocklevel{180,320};
+    dm::vertical_request::RequestCruiseLevel requestcruiselevel{200};
+    dm::vertical_request::RequestClimbLevel requestclimblevel{720};
+    dm::vertical_request::RequestDescentLevel requestdescentlevel{450};
+    dm::vertical_request::RequestLevelAtPosition requestlevelatposition{200, 50};
 
-    aircraft.send(requestlevel);
+    aircraft.send(requestlevelatposition);
 
     return 0;
 }

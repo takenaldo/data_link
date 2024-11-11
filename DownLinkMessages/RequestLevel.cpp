@@ -1,5 +1,5 @@
-#ifndef uplink_request_level
-#define uplink_request_level
+#ifndef downlink_request_level
+#define downlink_request_level
 
 #include <iostream>
 #include <typeindex>
@@ -8,7 +8,7 @@
 #include <variant>
 
 #include "../DownLinkMessage.h"
-#include "PermittedResponseGroup.cpp"
+#include "../DownLinkMessages/PermittedResponseGroup.cpp"
 
 namespace dm::vertical_request
 {
@@ -29,7 +29,7 @@ public:
             Alert::LOW_ALERT,
              Urgency::NORMAL, 
              dm::MessageGroup::VERTICAL_REQUEST, 
-             PermittedResponseGroup(1, {}, true)
+             PermittedResponseGroup(1, downlink::permitted_responses::GROUP_YES, true)
         )
     {
         setMessage(buildMessage(m_initializePhrases()));
