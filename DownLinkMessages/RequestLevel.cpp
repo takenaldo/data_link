@@ -12,7 +12,7 @@
 
 namespace dm::vertical_request{
 
-class RequestLevel: DownLinkMessage {
+class RequestLevel:  public DownLinkMessage {
 
 private:
     int m_level;
