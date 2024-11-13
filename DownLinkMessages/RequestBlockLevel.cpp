@@ -17,7 +17,7 @@ private:
     int m_requestedLevel;
     std::vector<std::variant<int, float, double, std::string>> m_initializePhrases()
     {
-        return{" REQUEST BLOCK ", m_initialLevel, "TO", m_requestedLevel};
+        return{"REQUEST BLOCK", m_initialLevel, "TO", m_requestedLevel};
 
     }
 public:

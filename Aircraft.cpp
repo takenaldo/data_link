@@ -11,6 +11,10 @@
 #include "DownLinkMessages/RequestClimbLevel.cpp"
 #include "DownLinkMessages/RequestDescentLevel.cpp"
 #include "DownLinkMessages/RequestLevelAtPosition.cpp"
+#include "DownLinkMessages/RequestDescentLevelAtPosition.cpp"
+#include "DownLinkMessages/RequestLevelAtTime.cpp"
+#include "DownLinkMessages/RequestDescentLevelAtTime.cpp"
+#include "DownLinkMessages/RequestVmc.cpp"
 
 Aircraft::Aircraft(){
     zmq::context_t sender_ctx;
@@ -155,8 +159,12 @@ int main(){
     dm::vertical_request::RequestClimbLevel requestclimblevel{720};
     dm::vertical_request::RequestDescentLevel requestdescentlevel{450};
     dm::vertical_request::RequestLevelAtPosition requestlevelatposition{200, 50};
+    dm::vertical_request::RequestDescentLevelAtPosition requestdescentlevelatposition(100, 20);
+    dm::vertical_request::RequestLevelAtTime requestlevelattime(23,420);
+    dm::vertical_request::RequestDescentLevelAtTime requestdescentlevelattime(10,7888);
+    dm::vertical_request::RequestVmc requestvmc;
 
-    aircraft.send(requestlevelatposition);
+    aircraft.send(requestdescentlevelatposition);
 
     return 0;
 }
