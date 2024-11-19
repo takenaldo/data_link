@@ -6,8 +6,15 @@
 
 #include "DownLinkMessages/Roger.cpp"
 #include "DownLinkMessages/RequestLevel.cpp"
-
-
+#include "DownLinkMessages/RequestBlockLevel.cpp"
+#include "DownLinkMessages/RequestCruiseLevel.cpp"
+#include "DownLinkMessages/RequestClimbLevel.cpp"
+#include "DownLinkMessages/RequestDescentLevel.cpp"
+#include "DownLinkMessages/RequestLevelAtPosition.cpp"
+#include "DownLinkMessages/RequestDescentLevelAtPosition.cpp"
+#include "DownLinkMessages/RequestLevelAtTime.cpp"
+#include "DownLinkMessages/RequestDescentLevelAtTime.cpp"
+#include "DownLinkMessages/RequestVmc.cpp"
 
 Aircraft::Aircraft(){
     zmq::context_t sender_ctx;
@@ -138,10 +145,6 @@ void Aircraft::startReceiving() {
 }
 
 
-
-
-
-
 int main(){
 
     Aircraft aircraft{"ET-AUE", "N704YA", "A0B1C2","HAAB", "HASC"};
@@ -150,11 +153,18 @@ int main(){
 
     dm::response::Roger roger;
 
-    dm::vertical_request::RequestLevel requestLevel{180};
+    dm::vertical_request::RequestLevel requestlevel{180};
+    dm::vertical_request::RequestBlockLevel requestblocklevel{180,320};
+    dm::vertical_request::RequestCruiseLevel requestcruiselevel{200};
+    dm::vertical_request::RequestClimbLevel requestclimblevel{720};
+    dm::vertical_request::RequestDescentLevel requestdescentlevel{450};
+    dm::vertical_request::RequestLevelAtPosition requestlevelatposition{200, 50};
+    dm::vertical_request::RequestDescentLevelAtPosition requestdescentlevelatposition(100, 20);
+    dm::vertical_request::RequestLevelAtTime requestlevelattime(23,420);
+    dm::vertical_request::RequestDescentLevelAtTime requestdescentlevelattime(10,7888);
+    dm::vertical_request::RequestVmc requestvmc;
 
-
-    aircraft.send(requestLevel);
-
+    aircraft.send(requestdescentlevelatposition);
 
     return 0;
 }
